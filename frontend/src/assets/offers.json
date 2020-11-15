@@ -1,0 +1,203 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "userId": 1,
+      "userName": "Yulia Badrutdinova",
+      "genre": "Fantasy",
+      "date": "15.11.2020",
+      "autor": "Joanne Kathleen Rowling",
+      "bookName": "Harry Potter a Kámen mudrců",
+      "rating": 5
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "userName": "David Hořák",
+      "genre": "Naučná",
+      "date": "16. 10. 2020",
+      "autor": "Pohlreich Zdeněk",
+      "bookName": "Super jednoduše",
+      "rating" : 5
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "userName": "Viktor Tumanov",
+      "genre": "Historie a fakta",
+      "date": "16. 10. 2020",
+      "autor": "Bohdalová Jiřina;Janoušek Jiří",
+      "bookName": "Můj život mezi slzami a smíchem",
+      "rating" : 5
+    },
+    {
+      "id": 4,
+      "userId": 4,
+      "userName": "Simona Ondráčková",
+      "genre": "Horor",
+      "date": "13. 10. 2020",
+      "autor": "Riggs Ransom",
+      "bookName": "Sirotčinec slečny Peregrinové - Ptačí sněm",
+      "rating" : 5
+    },
+    {
+      "id": 5,
+      "userId": 5,
+      "userName": "Martina Chvílová",
+      "genre": "Odborná a technická literatura",
+      "date": "15. 10. 2020",
+      "autor": "Michal Kubal;Vojtěch Gibiš",
+      "bookName": "Pandemie",
+      "rating" : 5
+    },
+    {
+      "id": 1,
+      "userId": 1,
+      "userName": "Yulia Badrutdinova",
+      "genre": "Fantasy",
+      "date": "15.11.2020",
+      "autor": "Joanne Kathleen Rowling",
+      "bookName": "Harry Potter a Kámen mudrců",
+      "rating" : 5
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "userName": "David Hořák",
+      "genre": "Naučná",
+      "date": "16. 10. 2020",
+      "autor": "Pohlreich Zdeněk",
+      "bookName": "Super jednoduše",
+      "rating" : 5
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "userName": "Viktor Tumanov",
+      "genre": "Historie a fakta",
+      "date": "16. 10. 2020",
+      "autor": "Bohdalová Jiřina;Janoušek Jiří",
+      "bookName": "Můj život mezi slzami a smíchem",
+      "rating" : 5
+    },
+    {
+      "id": 4,
+      "userId": 4,
+      "userName": "Simona Ondráčková",
+      "genre": "Horor",
+      "date": "13. 10. 2020",
+      "autor": "Riggs Ransom",
+      "bookName": "Sirotčinec slečny Peregrinové - Ptačí sněm",
+      "rating" : 5
+    },
+    {
+      "id": 5,
+      "userId": 5,
+      "userName": "Martina Chvílová",
+      "genre": "Odborná a technická literatura",
+      "date": "15. 10. 2020",
+      "autor": "Michal Kubal;Vojtěch Gibiš",
+      "bookName": "Pandemie",
+      "rating" : 5
+    },
+    {
+      "id": 1,
+      "userId": 1,
+      "userName": "Yulia Badrutdinova",
+      "genre": "Fantasy",
+      "date": "15.11.2020",
+      "autor": "Joanne Kathleen Rowling",
+      "bookName": "Harry Potter a Kámen mudrců",
+      "rating" : 5
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "userName": "David Hořák",
+      "genre": "Naučná",
+      "date": "16. 10. 2020",
+      "autor": "Pohlreich Zdeněk",
+      "bookName": "Super jednoduše",
+      "rating" : 5
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "userName": "Viktor Tumanov",
+      "genre": "Historie a fakta",
+      "date": "16. 10. 2020",
+      "autor": "Bohdalová Jiřina;Janoušek Jiří",
+      "bookName": "Můj život mezi slzami a smíchem",
+      "rating" : 5
+    },
+    {
+      "id": 4,
+      "userId": 4,
+      "userName": "Simona Ondráčková",
+      "genre": "Horor",
+      "date": "13. 10. 2020",
+      "autor": "Riggs Ransom",
+      "bookName": "Sirotčinec slečny Peregrinové - Ptačí sněm",
+      "rating" : 5
+    },
+    {
+      "id": 5,
+      "userId": 5,
+      "userName": "Martina Chvílová",
+      "genre": "Odborná a technická literatura",
+      "date": "15. 10. 2020",
+      "autor": "Michal Kubal;Vojtěch Gibiš",
+      "bookName": "Pandemie",
+      "rating" : 5
+    },
+    {
+      "id": 1,
+      "userId": 1,
+      "userName": "Yulia Badrutdinova",
+      "genre": "Fantasy",
+      "date": "15.11.2020",
+      "autor": "Joanne Kathleen Rowling",
+      "bookName": "Harry Potter a Kámen mudrců",
+      "rating" : 5
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "userName": "David Hořák",
+      "genre": "Naučná",
+      "date": "16. 10. 2020",
+      "autor": "Pohlreich Zdeněk",
+      "bookName": "Super jednoduše",
+      "rating" : 5
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "userName": "Viktor Tumanov",
+      "genre": "Historie a fakta",
+      "date": "16. 10. 2020",
+      "autor": "Bohdalová Jiřina;Janoušek Jiří",
+      "bookName": "Můj život mezi slzami a smíchem",
+      "rating" : 5
+    },
+    {
+      "id": 4,
+      "userId": 4,
+      "userName": "Simona Ondráčková",
+      "genre": "Horor",
+      "date": "13. 10. 2020",
+      "autor": "Riggs Ransom",
+      "bookName": "Sirotčinec slečny Peregrinové - Ptačí sněm",
+      "rating" : 5
+    },
+    {
+      "id": 5,
+      "userId": 5,
+      "userName": "Martina Chvílová",
+      "genre": "Odborná a technická literatura",
+      "date": "15. 10. 2020",
+      "autor": "Michal Kubal;Vojtěch Gibiš",
+      "bookName": "Pandemie"
+    }
+  ]
+}

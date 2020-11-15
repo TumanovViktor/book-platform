@@ -1,0 +1,11 @@
+<p-menubar [model]="items">
+  <ng-template pTemplate="start">
+    <a routerLink="/"><img src="/assets/images/logo-old.png" height="40" width="40" class="p-mr-2" alt=""></a>
+  </ng-template>
+  <ng-template pTemplate="end">
+<!--    <button pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-info"></button>-->
+    <button pButton pRipple type="button" icon="pi pi-user-plus" class="p-button-rounded p-button-info" routerLink="/about-us"></button>
+    &nbsp;
+    <button pButton pRipple type="button" icon="pi pi-sign-in" class="p-button-rounded p-button-info"></button>
+  </ng-template>
+</p-menubar>

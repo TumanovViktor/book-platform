@@ -1,0 +1,22 @@
+<p-table [value]="offers">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:10%">Uživatel</th>
+      <th style="width:10%">Žánr</th>
+      <th style="width:7%">Datum vytvoření</th>
+      <th style="width:15%">Autor</th>
+      <th>Název</th>
+      <th style="width:10%">Rating</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-offer>
+    <tr>
+      <td>{{offer.userName}}</td>
+      <td>{{offer.genre}}</td>
+      <td>{{offer.date}}</td>
+      <td>{{offer.autor}}</td>
+      <td>{{offer.bookName}}</td>
+      <td><p-rating [ngModel]="offer.rating" [readonly]="true" [cancel]="false"></p-rating></td>
+    </tr>
+  </ng-template>
+</p-table>
