@@ -1,0 +1,3 @@
+rootProject.name = 'book-platform'
+include 'backend'
+include 'frontend'
