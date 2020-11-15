@@ -20,6 +20,8 @@ import {TableModule} from "primeng/table";
 import {FormsModule} from "@angular/forms";
 import {OfferService} from "./book-search/offerserivce";
 import {HttpClientModule} from "@angular/common/http";
+import {RegisterComponent} from './register/register.component';
+import {LoginComponent} from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import {HttpClientModule} from "@angular/common/http";
     SupportComponent,
     BookSearchComponent,
     BreadcrumbsComponent,
-    MenuComponent
+    MenuComponent,
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
