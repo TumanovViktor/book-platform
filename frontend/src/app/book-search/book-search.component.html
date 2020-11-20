@@ -1,22 +1,44 @@
-<p-table [value]="offers">
-  <ng-template pTemplate="header">
-    <tr>
-      <th style="width:10%">Uživatel</th>
-      <th style="width:10%">Žánr</th>
-      <th style="width:7%">Datum vytvoření</th>
-      <th style="width:15%">Autor</th>
-      <th>Název</th>
-      <th style="width:10%">Rating</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-offer>
-    <tr>
-      <td>{{offer.userName}}</td>
-      <td>{{offer.genre}}</td>
-      <td>{{offer.date}}</td>
-      <td>{{offer.autor}}</td>
-      <td>{{offer.bookName}}</td>
-      <td><p-rating [ngModel]="offer.rating" [readonly]="true" [cancel]="false"></p-rating></td>
-    </tr>
-  </ng-template>
-</p-table>
+<div>
+  <p-panel header="Vyhledávání (žádný filtr)" [toggleable]="true" toggler="header">
+    <div class="p-fluid p-grid">
+      <span class="p-float-label">
+        <p-multiSelect inputId="multiselect" [options]="bookGenres" [(ngModel)]="filterGenres" optionLabel="nameCz"></p-multiSelect>
+        <label for="filter-genre">Žánr</label>
+      </span>
+      <span class="p-float-label">
+        <input id="filter-author" type="text" pInputText [(ngModel)]="filterAuthor"> 
+        <label for="filter-author">Autor</label>
+      </span>
+      <span class="p-buttonset">
+        <button pButton type="button" label="Zrušit filtr" icon="pi pi-times" class="p-button-raised p-button-danger p-button-text"
+          (click)="clearFilters()"></button>
+        <button pButton type="button" label="Hledat" icon="pi pi-filter" class="p-button-raised p-button-text"
+          (click)="performFilters()"></button>
+      </span>
+    </div>
+  </p-panel>
+
+  <p-table [value]="offers" sortMode="single" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]"
+    [totalRecords]="totalRecords">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="userName" style="width:10%">Uživatel <p-sortIcon field="userName"></p-sortIcon></th>
+        <th pSortableColumn="genre" style="width:10%">Žánr <p-sortIcon field="genre"></p-sortIcon></th>
+        <th pSortableColumn="date" style="width:10%">Vytvořeno <p-sortIcon field="date"></p-sortIcon></th>
+        <th pSortableColumn="author" style="width:15%">Autor <p-sortIcon field="author"></p-sortIcon></th>
+        <th pSortableColumn="bookName">Název <p-sortIcon field="bookName"></p-sortIcon></th>
+        <th pSortableColumn="rating" style="width:10%">Rating <p-sortIcon field="rating"></p-sortIcon></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-offer>
+      <tr>
+        <td>{{offer.userName}}</td>
+        <td>{{offer.genre}}</td>
+        <td>{{offer.date}}</td>
+        <td>{{offer.author}}</td>
+        <td>{{offer.bookName}}</td>
+        <td><p-rating [ngModel]="offer.rating" [readonly]="true" [cancel]="false"></p-rating></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
