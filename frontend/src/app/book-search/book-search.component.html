@@ -1,19 +1,27 @@
 <div>
-  <p-panel header="Vyhledávání (žádný filtr)" [toggleable]="true" toggler="header">
-    <div class="p-fluid p-grid">
-      <span class="p-float-label">
-        <p-multiSelect inputId="multiselect" [options]="bookGenres" [(ngModel)]="filterGenres" optionLabel="nameCz"></p-multiSelect>
+  <p-panel [(ngModel)]="panelFilterHeader" [header]="panelFilterHeader" [toggleable]="true" toggler="header">
+    <div class="p-grid p-fluid" style="width: 700px;">
+      <div class="p-col-6 p-md-6">
         <label for="filter-genre">Žánr</label>
-      </span>
-      <span class="p-float-label">
-        <input id="filter-author" type="text" pInputText [(ngModel)]="filterAuthor"> 
+        <p-multiSelect inputId="multiselect" [options]="bookGenres" [(ngModel)]="filterGenres" optionLabel="nameCz"></p-multiSelect>
+      </div>
+      <div class="p-col-6 p-md-6">
+        <label>Hodnocení</label>
+        <p-rating [(ngModel)]="filterRating" [cancel]="true"></p-rating>
+      </div>
+      <div class="p-col-6 p-md-6">
+        <label for="filter-book-name">Název</label>
+        <input id="filter-book-name" type="text" pInputText [(ngModel)]="filterBookName"> 
+      </div>      
+      <div class="p-col-6 p-md-6">
         <label for="filter-author">Autor</label>
-      </span>
-      <span class="p-buttonset">
-        <button pButton type="button" label="Zrušit filtr" icon="pi pi-times" class="p-button-raised p-button-danger p-button-text"
-          (click)="clearFilters()"></button>
+        <input id="filter-author" type="text" pInputText [(ngModel)]="filterAuthor"> 
+      </div>
+      <span class="p-col-12 p-buttonset">
+        <button pButton type="button" label="Zrušit filtry" icon="pi pi-times" class="p-button-raised p-button-danger p-button-text"
+          (click)="performFilters(true)"></button>
         <button pButton type="button" label="Hledat" icon="pi pi-filter" class="p-button-raised p-button-text"
-          (click)="performFilters()"></button>
+          (click)="performFilters(false)"></button>
       </span>
     </div>
   </p-panel>
@@ -27,13 +35,13 @@
         <th pSortableColumn="date" style="width:10%">Vytvořeno <p-sortIcon field="date"></p-sortIcon></th>
         <th pSortableColumn="author" style="width:15%">Autor <p-sortIcon field="author"></p-sortIcon></th>
         <th pSortableColumn="bookName">Název <p-sortIcon field="bookName"></p-sortIcon></th>
-        <th pSortableColumn="rating" style="width:10%">Rating <p-sortIcon field="rating"></p-sortIcon></th>
+        <th pSortableColumn="rating" style="width:10%">Hodnocení <p-sortIcon field="rating"></p-sortIcon></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-offer>
       <tr>
         <td>{{offer.userName}}</td>
-        <td>{{offer.genre}}</td>
+        <td>{{bookGenreMap.get(offer.genre)!!.nameCz}}</td>
         <td>{{offer.date}}</td>
         <td>{{offer.author}}</td>
         <td>{{offer.bookName}}</td>

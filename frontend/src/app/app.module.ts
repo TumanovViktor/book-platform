@@ -19,6 +19,7 @@ import {RatingModule} from 'primeng/rating';
 import {TableModule} from 'primeng/table';
 import {PanelModule} from 'primeng/panel';
 import {MultiSelectModule} from 'primeng/multiselect';
+import {InputTextModule} from 'primeng/inputtext';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
 import {OfferService} from './book-search/offerserivce';
@@ -42,7 +43,7 @@ import {LoginComponent} from './login/login.component';
   imports: [
     BrowserModule, BrowserAnimationsModule,
     AppRoutingModule,
-    BreadcrumbModule, MenubarModule, SharedModule, ButtonModule, RippleModule, PanelModule, TableModule, MultiSelectModule,
+    BreadcrumbModule, MenubarModule, SharedModule, ButtonModule, RippleModule, PanelModule, TableModule, MultiSelectModule, InputTextModule,
     RatingModule, FormsModule, HttpClientModule
   ],
   providers: [OfferService],

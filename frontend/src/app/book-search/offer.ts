@@ -5,8 +5,8 @@ export interface Offer {
   userId?: number;
   userName?: string;
   genre: EBookGenre;
-  date?: string;
+  date: string;
   author?: string;
-  bookName?: string;
+  bookName: string;
   rating?: number;
 }
