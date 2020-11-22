@@ -1,10 +1,12 @@
+import { EBookGenre } from './book-genre';
+
 export interface Offer {
-  id?: number;
+  id: number;
   userId?: number;
   userName?: string;
-  genre?: string;
-  date?: string;
-  autor?: string;
-  bookName?: string;
+  genre: EBookGenre;
+  date: string;
+  author?: string;
+  bookName: string;
   rating?: number;
 }

@@ -24,6 +24,7 @@
     "@angular/router": "~11.0.0",
     "bootstrap": "^4.5.0",
     "bulma": "^0.9.1",
+    "primeflex": "^2.0.0",
     "primeicons": "^4.0.0",
     "primeng": "^10.0.3",
     "rxjs": "~6.6.0",

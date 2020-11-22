@@ -1,22 +1,52 @@
-<p-table [value]="offers">
-  <ng-template pTemplate="header">
-    <tr>
-      <th style="width:10%">Uživatel</th>
-      <th style="width:10%">Žánr</th>
-      <th style="width:7%">Datum vytvoření</th>
-      <th style="width:15%">Autor</th>
-      <th>Název</th>
-      <th style="width:10%">Rating</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-offer>
-    <tr>
-      <td>{{offer.userName}}</td>
-      <td>{{offer.genre}}</td>
-      <td>{{offer.date}}</td>
-      <td>{{offer.autor}}</td>
-      <td>{{offer.bookName}}</td>
-      <td><p-rating [ngModel]="offer.rating" [readonly]="true" [cancel]="false"></p-rating></td>
-    </tr>
-  </ng-template>
-</p-table>
+<div>
+  <p-panel [(ngModel)]="panelFilterHeader" [header]="panelFilterHeader" [toggleable]="true" toggler="header">
+    <div class="p-grid p-fluid" style="width: 700px;">
+      <div class="p-col-6 p-md-6">
+        <label for="filter-genre">Žánr</label>
+        <p-multiSelect inputId="multiselect" [options]="bookGenres" [(ngModel)]="filterGenres" optionLabel="nameCz"></p-multiSelect>
+      </div>
+      <div class="p-col-6 p-md-6">
+        <label>Hodnocení</label>
+        <p-rating [(ngModel)]="filterRating" [cancel]="true"></p-rating>
+      </div>
+      <div class="p-col-6 p-md-6">
+        <label for="filter-book-name">Název</label>
+        <input id="filter-book-name" type="text" pInputText [(ngModel)]="filterBookName"> 
+      </div>      
+      <div class="p-col-6 p-md-6">
+        <label for="filter-author">Autor</label>
+        <input id="filter-author" type="text" pInputText [(ngModel)]="filterAuthor"> 
+      </div>
+      <span class="p-col-12 p-buttonset">
+        <button pButton type="button" label="Zrušit filtry" icon="pi pi-times" class="p-button-raised p-button-danger p-button-text"
+          (click)="performFilters(true)"></button>
+        <button pButton type="button" label="Hledat" icon="pi pi-filter" class="p-button-raised p-button-text"
+          (click)="performFilters(false)"></button>
+      </span>
+    </div>
+  </p-panel>
+
+  <p-table [value]="offers" sortMode="single" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]"
+    [totalRecords]="totalRecords">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="userName" style="width:10%">Uživatel <p-sortIcon field="userName"></p-sortIcon></th>
+        <th pSortableColumn="genre" style="width:10%">Žánr <p-sortIcon field="genre"></p-sortIcon></th>
+        <th pSortableColumn="date" style="width:10%">Vytvořeno <p-sortIcon field="date"></p-sortIcon></th>
+        <th pSortableColumn="author" style="width:15%">Autor <p-sortIcon field="author"></p-sortIcon></th>
+        <th pSortableColumn="bookName">Název <p-sortIcon field="bookName"></p-sortIcon></th>
+        <th pSortableColumn="rating" style="width:10%">Hodnocení <p-sortIcon field="rating"></p-sortIcon></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-offer>
+      <tr>
+        <td>{{offer.userName}}</td>
+        <td>{{bookGenreMap.get(offer.genre)!!.nameCz}}</td>
+        <td>{{offer.date}}</td>
+        <td>{{offer.author}}</td>
+        <td>{{offer.bookName}}</td>
+        <td><p-rating [ngModel]="offer.rating" [readonly]="true" [cancel]="false"></p-rating></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
