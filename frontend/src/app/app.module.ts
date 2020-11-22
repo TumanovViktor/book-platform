@@ -26,6 +26,12 @@ import {OfferService} from './book-search/offerserivce';
 import {HttpClientModule} from '@angular/common/http';
 import {RegisterComponent} from './register/register.component';
 import {LoginComponent} from './login/login.component';
+import {PasswordModule} from "primeng/password";
+import {InputTextModule} from "primeng/inputtext";
+import {InputMaskModule} from "primeng/inputmask";
+import {FieldsetModule} from "primeng/fieldset";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {PanelModule} from "primeng/panel";
 
 @NgModule({
   declarations: [
@@ -45,6 +51,9 @@ import {LoginComponent} from './login/login.component';
     AppRoutingModule,
     BreadcrumbModule, MenubarModule, SharedModule, ButtonModule, RippleModule, PanelModule, TableModule, MultiSelectModule, InputTextModule,
     RatingModule, FormsModule, HttpClientModule
+    BreadcrumbModule, MenubarModule, SharedModule, ButtonModule, RippleModule, RatingModule, TableModule,
+    RatingModule, FormsModule, HttpClientModule, ReactiveFormsModule, PasswordModule, InputTextModule,
+    InputMaskModule, FieldsetModule, BrowserAnimationsModule, PanelModule
   ],
   providers: [OfferService],
   bootstrap: [AppComponent]

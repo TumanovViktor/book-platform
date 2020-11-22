@@ -4,8 +4,10 @@ import {Component} from '@angular/core';
   selector: 'app-root',
   template: `
     <app-header></app-header>
+    <div style="margin: 20px">
+      <router-outlet></router-outlet>
+    </div>
     <app-footer></app-footer>
-    <router-outlet></router-outlet>
   `,
   styleUrls: ['./app.component.css']
 })
