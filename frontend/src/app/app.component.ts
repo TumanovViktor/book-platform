@@ -5,6 +5,7 @@ import {Component} from '@angular/core';
   template: `
     <app-header></app-header>
     <div style="margin: 20px">
+      <alert></alert>
       <router-outlet></router-outlet>
     </div>
     <app-footer></app-footer>
@@ -13,4 +14,5 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
   title = 'frontend';
+
 }

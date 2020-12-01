@@ -1,5 +1,9 @@
 import {Component} from '@angular/core';
 import {RegistrationModel} from "./RegistrationModel";
+import {first} from "rxjs/operators";
+import {UserService} from "../service/user.service";
+import {Router} from "@angular/router";
+import {AlertService} from "../alert";
 
 @Component({
   selector: 'app-register',
@@ -7,21 +11,38 @@ import {RegistrationModel} from "./RegistrationModel";
   styleUrls: []
 })
 export class RegisterComponent {
-  // registerForm = new FormGroup({
-  //   email: new FormControl('',[
-  //     Validators.required,
-  //     Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
-  //   password: new FormControl('')
-  // });
-  registrationModel = new RegistrationModel('','');
+  public registrationModel: RegistrationModel = {
+    username: '',
+    email: '',
+    password: '',
+    passwordConfirm: ''
+  };
 
-  onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.registrationModel.email.invalid);
-    // console.warn(this.registerForm.value);
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private alertService: AlertService
+  ) {
   }
 
-  // get email(){
-  //   return this.registerForm.get('email');
-  // }
+  onSubmit() {
+    let user = {
+      username: this.registrationModel.username,
+      email: this.registrationModel.email,
+      password: this.registrationModel.password,
+      id: -1,
+      token: ''
+    }
+
+    this.userService.register(user)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.alertService.success('Úspěšná registrace', {severity: 'success', summary: 'Success'});
+          this.router.navigate(['/login']);
+        },
+        error => {
+          this.alertService.error(error);
+        });
+  }
 }

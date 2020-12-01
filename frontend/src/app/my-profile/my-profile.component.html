@@ -1,0 +1,60 @@
+<p-card header="{{currentUser.username}}" styleClass="p-card-shadow">
+  <div class="p-grid">
+    <div class="p-col-12 p-md-4 p-lg-2">
+      <img [src]="imgURL" *ngIf="imgURL" alt="Foto" width="400" style="border-radius: 50px;">
+      <input #file type="file" accept='image/*' (change)="preview(file.files)" style="display: none"/>
+      <div class="p-grid p-jc-center" style="margin-top: 20px">
+
+        <p-button label="Vybrat fotku" icon="pi pi-check" (click)="file.click()"></p-button>
+        <p-button label="Uložit" icon="pi pi-save" styleClass="p-button-secondary"
+                  [style]="{'margin-left': '.5em'}" (click)="onUpload()"></p-button>
+      </div>
+    </div>
+    <div class="p-col-1 p-md-2 p-lg-1">
+    </div>
+    <div class="p-col-12 p-md-12 p-lg-6">
+      <p-fieldset legend="Moje údaje">
+        <form (ngSubmit)="onSubmit()" #form="ngForm">
+          <div class="p-fluid">
+
+            <div class="p-field p-grid">
+              <label for="username" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Username</label>
+              <div class="p-col-12 p-md-10">
+                <input id="username" type="text" pInputText [(ngModel)]="currentUser.username" required
+                       name="username"/>
+              </div>
+            </div>
+
+            <div class="p-field p-grid">
+              <label for="email" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Email</label>
+              <div class="p-col-12 p-md-10">
+                <input id="email" type="text" pInputText [(ngModel)]="currentUser.email" required name="email"/>
+              </div>
+            </div>
+
+            <div class="p-field p-grid">
+              <label for="password" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Heslo</label>
+              <div class="p-col-12 p-md-10">
+                <input id="password" type="password" pInputText [(ngModel)]="currentUser.password" required name="password" #password="ngModel"/>
+              </div>
+            </div>
+
+            <div class="p-field p-grid">
+              <label for="passwordConfirm" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Potvrzení hesla</label>
+              <div class="p-col-12 p-md-10">
+
+                <input type="password" id="passwordConfirm" pPassword required #passwordConfirm="ngModel" [feedback]="false"
+                       [(ngModel)]="currentUser.passwordConfirm" name="passwordConfirm"
+                       compare-password="password">
+
+                <small class="p-invalid" *ngIf="passwordConfirm.dirty && passwordConfirm.errors && passwordConfirm.errors?.required">Potvrzení hesla je povinné</small>
+                <small class="p-invalid" *ngIf="passwordConfirm.dirty && ((password.errors && password.errors.compare) || (passwordConfirm.errors && passwordConfirm.errors.compare)) && !passwordConfirm.errors?.required">Hesla nejsou stajná</small>
+              </div>
+            </div>
+          </div>
+          <p-button label="Uložit" icon="pi pi-check" iconPos="right" type="submit" [disabled]="!form.valid"></p-button>
+        </form>
+      </p-fieldset>
+    </div>
+  </div>
+</p-card>

@@ -1,1 +1,21 @@
-<p>login works!</p>
+<form (ngSubmit)="onSubmit()" #form="ngForm">
+  <div class="p-field p-grid">
+    <div class="p-inputgroup p-col-fixed" style="max-width:400px">
+      <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+      <input type="text" class="p-inputtext-lg" pInputText required placeholder="Uživatelské jméno"
+             [(ngModel)]="loginModel.username" name="userName">
+    </div>
+  </div>
+  <div class="p-field p-grid">
+    <div class="p-inputgroup p-col-fixed" style="max-width:400px">
+      <span class="p-inputgroup-addon"><i class="pi pi-key"></i></span>
+      <input type="password" class="p-inputtext-lg" pInputText required placeholder="Heslo"
+             [(ngModel)]="loginModel.password" name="password"
+             compare-password="passwordConfirm" parent="true">
+    </div>
+  </div>
+  <div class="form-group">
+    <button  pButton pRipple label="Přihlášení" icon="pi pi-check" iconPos="left" type="submit" [disabled]="!form.valid" class="p-mr-2"></button >
+    <button  pButton pRipple label="Registrace" icon="pi pi-user-plus" iconPos="right" routerLink="/register" class="p-button-rounded p-button-secondary"></button >
+  </div>
+</form>

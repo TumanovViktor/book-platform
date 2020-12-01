@@ -1,6 +1,6 @@
-export class RegistrationModel {
-  constructor(
-    public email: string,
-    public password: string
-  ){}
+export interface RegistrationModel {
+  username: string,
+  email: string,
+  password: string,
+  passwordConfirm: string;
 }

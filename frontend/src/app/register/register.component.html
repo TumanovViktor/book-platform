@@ -1,7 +1,14 @@
-<form (ngSubmit)="onSubmit()">
+<form (ngSubmit)="onSubmit()" #form="ngForm">
   <div class="p-field p-grid">
-    <div class="p-inputgroup p-col-fixed" style="width:30%">
+    <div class="p-inputgroup p-col-fixed" style="max-width:400px">
       <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+      <input type="text" class="p-inputtext-lg" pInputText required placeholder="Uživatelské jméno"
+             [(ngModel)]="registrationModel.username" name="userName">
+    </div>
+  </div>
+  <div class="p-field p-grid">
+    <div class="p-inputgroup p-col-fixed" style="max-width:400px">
+      <span class="p-inputgroup-addon"><i class="pi pi-envelope"></i></span>
       <input type="email" class="p-inputtext-lg" pInputText required [(ngModel)]="registrationModel.email" #email="ngModel"  name="email"
              [class.is-invalid]="email.invalid && email.touched"
              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
@@ -10,41 +17,27 @@
   </div>
 
   <div class="p-field p-grid">
-    <div class="p-inputgroup p-col-fixed" style="width:30%">
+    <div class="p-inputgroup p-col-fixed" style="max-width:400px">
       <span class="p-inputgroup-addon"><i class="pi pi-key"></i></span>
-      <input type="password" class="p-inputtext-lg" pPassword required placeholder="Heslo"
-             [(ngModel)]="registrationModel.password" name="password">
+      <input type="password" class="p-inputtext-lg" pPassword required placeholder="Heslo" #password="ngModel"
+             [(ngModel)]="registrationModel.password" name="password"
+             compare-password="passwordConfirm" parent="true">
     </div>
+    <small class="p-invalid" *ngIf="password.dirty && password.errors && password.errors?.required">Heslo je povinné</small>
   </div>
 
-  <p-button label="Vytvořit account" icon="pi pi-check" iconPos="right" type="submit"></p-button>
+  <div class="p-field p-grid">
+    <div class="p-inputgroup p-col-fixed" style="max-width:400px">
+      <span class="p-inputgroup-addon"><i class="pi pi-check"></i></span>
+      <input type="password" class="p-inputtext-lg" pPassword required placeholder="Potvrzení hesla" #passwordConfirm="ngModel" [feedback]="false"
+             [(ngModel)]="registrationModel.passwordConfirm" name="passwordConfirm"
+             compare-password="password">
+
+    </div>
+    <small class="p-invalid" *ngIf="passwordConfirm.dirty && passwordConfirm.errors && passwordConfirm.errors?.required">Potvrzení hesla je povinné</small>
+    <small class="p-invalid" *ngIf="passwordConfirm.dirty && ((password.errors && password.errors.compare) || (passwordConfirm.errors && passwordConfirm.errors.compare)) && !passwordConfirm.errors?.required">Hesla nejsou stajná</small>
+  </div>
+
+  <p-button label="Vytvořit účet" icon="pi pi-check" iconPos="right" type="submit" [disabled]="!form.valid"></p-button>
 
 </form>
-<!--<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">-->
-<!--  <div class="p-field p-grid">-->
-
-<!--      <div class="p-inputgroup p-col-fixed" style="width:30%">-->
-
-<!--        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>-->
-<!--        <input [class.is-invalid]="email.invalid && email.touched" type="email" class="p-inputtext-lg"-->
-<!--               formControlName="primaryEmail" />-->
-
-<!--        <div *ngIf="(email.invalid && email.touched) || email.dirty">-->
-<!--          <small *ngIf="email.errors?.required" class="text-danger">Primary email is required</small>-->
-<!--          &lt;!&ndash;question mark(?) is a safe navigation operator&ndash;&gt;-->
-<!--          <small *ngIf="email.errors?.pattern" class="text-danger">Please provide a valid email address</small>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <div class="p-field p-grid">-->
-<!--      <div class="p-inputgroup p-col-fixed" style="width:30%">-->
-<!--        <span class="p-inputgroup-addon"><i class="pi pi-key"></i></span>-->
-<!--        <input formControlName="password" type="text" class="p-inputtext-lg" pPassword placeholder="Password">-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <p-button label="Create account" icon="pi pi-check" iconPos="right" type="submit"-->
-<!--              [disabled]="!registerForm.valid"></p-button>-->
-
-<!--</form>-->
