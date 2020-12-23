@@ -14,7 +14,7 @@ import {BreadcrumbsComponent} from './header/breadcrumbs/breadcrumbs.component';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {MenuComponent} from './header/menu/menu.component';
 import {MenubarModule} from 'primeng/menubar';
-import {SharedModule} from 'primeng/api';
+import {MessageService, SharedModule} from 'primeng/api';
 import {ButtonModule} from 'primeng/button';
 import {RippleModule} from 'primeng/ripple';
 import {RatingModule} from 'primeng/rating';
@@ -27,12 +27,22 @@ import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
 import {TabViewModule} from 'primeng/tabview';
 import {CardModule} from 'primeng/card';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {FormsModule} from '@angular/forms';
 import {OfferService} from './offer/offerservice';
 import {OfferChatService} from './offer/offerchatservice';
-import {HttpClientModule} from '@angular/common/http';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RegisterComponent} from './register/register.component';
 import {LoginComponent} from './login/login.component';
+import {PasswordModule} from "primeng/password";
+import {InputMaskModule} from "primeng/inputmask";
+import {FieldsetModule} from "primeng/fieldset";
+import {ComparePasswordModule} from "../directive/compare-directive/compare-password.module";
+import {ErrorInterceptor, fakeBackendProvider, JwtInterceptor} from './helper';
+import {MyProfileComponent} from './my-profile/my-profile.component';
+import {AlertModule} from "./alert";
+import {MessageModule} from "primeng/message";
+import {MessagesModule} from "primeng/messages";
+import {ToastModule} from "primeng/toast";
 
 @NgModule({
   declarations: [
@@ -47,16 +57,24 @@ import {LoginComponent} from './login/login.component';
     BreadcrumbsComponent,
     MenuComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    MyProfileComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
     AppRoutingModule,
-    BreadcrumbModule, MenubarModule, SharedModule, ButtonModule, RippleModule, PanelModule, TableModule,
-    MultiSelectModule, InputTextModule, InputTextareaModule, TriStateCheckboxModule, TabViewModule, CardModule,
-    RatingModule, FormsModule, HttpClientModule
+    BreadcrumbModule, MenubarModule, SharedModule, ButtonModule, RippleModule, PanelModule, TableModule, MultiSelectModule, InputTextModule,
+    InputTextareaModule, TriStateCheckboxModule, TabViewModule, RatingModule, FormsModule, HttpClientModule, ReactiveFormsModule, PasswordModule, InputTextModule,
+    InputMaskModule, FieldsetModule, BrowserAnimationsModule, PanelModule, ComparePasswordModule, AlertModule, MessageModule,  MessagesModule,
+    ToastModule, CardModule
   ],
-  providers: [OfferService, OfferChatService],
+  providers: [
+    OfferService, OfferChatService, MessageService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    // provider used to create fake backend
+    fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
