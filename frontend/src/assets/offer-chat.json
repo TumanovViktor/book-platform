@@ -1,0 +1,81 @@
+{
+  "data": [
+    {
+      "byUserId": 2,
+      "byUserName": "David Hořák",
+      "offerId": 1,
+      "msgs": [
+        {
+          "id": 1,
+          "byUserId": 2,
+          "byUserName": "David Hořák",
+          "message": "Mam zajem!",
+          "createdDate": "9:15:03 13.12.2020"
+        },
+        {
+          "id": 2,
+          "byUserId": 1,
+          "byUserName": "Yulia Badrutdinova",
+          "message": "OK",
+          "createdDate": "11:06:48 13.12.2020"
+        }
+      ]
+    },
+    {
+      "byUserId": 5,
+      "byUserName": "Martina Chvílová",
+      "offerId": 1,
+      "msgs": [
+        {
+          "id": 3,
+          "byUserId": 5,
+          "byUserName": "Martina Chvílová",
+          "message": "Haloo?",
+          "createdDate": "16:15:03 14.12.2020"
+        }
+      ]
+    },
+    {
+      "byUserId": 1,
+      "byUserName": "Yulia Badrutdinova",
+      "offerId": 2,
+      "msgs": [
+        {
+          "id": 5,
+          "byUserId": 1,
+          "byUserName": "Yulia Badrutdinova",
+          "message": "Jaka byla kniha?",
+          "createdDate": "12:35:33 14.12.2020"
+        },
+        {
+          "id": 6,
+          "byUserId": 2,
+          "byUserName": "David Hořák",
+          "message": "OK",
+          "createdDate": "13:06:48 15.12.2020"
+        }
+      ]
+    },
+    {
+      "byUserId": 4,
+      "byUserName": "Simona Ondráčková",
+      "offerId": 3,
+      "msgs": [
+        {
+          "id": 7,
+          "byUserId": 4,
+          "byUserName": "Simona Ondráčková",
+          "message": "Mam zajem!",
+          "createdDate": "9:15:03 13.12.2020"
+        },
+        {
+          "id": 8,
+          "byUserId": 3,
+          "byUserName": "Viktor Tumanov",
+          "message": "Kdyz jinak nedas",
+          "createdDate": "11:06:48 13.12.2020"
+        }
+      ]
+    }
+  ]
+}

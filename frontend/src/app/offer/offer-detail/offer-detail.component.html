@@ -1,0 +1,36 @@
+<div class="box">
+  <p-card *ngIf="offer" [(ngModel)]="offer" [header]="offer.bookName" [style]="{'width': '30rem', 'margin-bottom': '1em'}">
+    <p>Autor: {{offer.author}}</p>
+    <p>Žánr: {{bookGenreMap.get(offer.genre)!!.nameCz}}</p>
+    <hr>
+    <p>Nabízející: {{offer.userName}}</p>
+    <p>Datum vytvoření: {{offer.createdDate}}</p>
+    <span>Hodnocení: <p-rating [ngModel]="offer.rating" [readonly]="true" [cancel]="false"></p-rating></span>
+  </p-card>
+  <p-card header="Chat" [style]="{'margin-bottom': '1em'}">
+    <div *ngIf="chatDataReady">
+      <div *ngIf="isOwnOffer(); else notOwnerView">
+        <div *ngIf="chats; else noChats" style="overflow: auto;">
+          <p-tabView>
+            <p-tabPanel *ngFor="let chat of chats; let first = first" [header]="chat.byUserName" [selected]="first">
+              <div *ngIf="first; else lazyTabView">
+                <offer-chat [chat]="chat" (onSend)="sendChatMessage($event)"></offer-chat>
+              </div>
+              <ng-template #lazyTabView>
+                <ng-template pTemplate="content">
+                  <offer-chat [chat]="chat" (onSend)="sendChatMessage($event)"></offer-chat>
+                </ng-template>
+              </ng-template>
+            </p-tabPanel>
+          </p-tabView>
+        </div>
+        <ng-template #noChats>
+          <p>Zatím nikdo neodepsal</p>
+        </ng-template>
+      </div>
+      <ng-template #notOwnerView>
+        <offer-chat [chat]="chats ? chats[0] : null" [ownerName]="offer!!.userName" (onSend)="sendChatMessage($event)"></offer-chat>
+      </ng-template>
+    </div>
+  </p-card>
+</div>

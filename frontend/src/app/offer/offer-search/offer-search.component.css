@@ -1,0 +1,9 @@
+.offer-table {
+  table-layout: unset;
+}
+.favourite-icon {
+  background-color: inherit;
+}
+.favourite-icon:focus {
+  box-shadow: none;
+}
