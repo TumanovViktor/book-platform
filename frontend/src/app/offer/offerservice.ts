@@ -10,20 +10,27 @@ export class OfferService {
   getOffers() {
     return this.http.get<any>('assets/offers.json')
       .toPromise()
-      .then(res => <Offer[]> res.data)
-      .then(data => { return data; });
+      .then(res => <Offer[]> res.data);
   }
 
-  getFilteredOffers(genres?: BookGenre[] | null, author?: string | null, bookName?: string | null, rating?: number | null) {
+  getFilteredOffers(genres?: BookGenre[] | null, author?: string | null, bookName?: string | null,
+      rating?: number | null, favourite?: boolean | null) {
     return this.http.get<any>('assets/offers.json')
       .toPromise()
       .then(res => (<Offer[]> res.data)
-      .filter(o => this.mockFilterOffer(o, genres, author?.toUpperCase(), bookName?.toUpperCase(), rating)))
-      .then(data => { return data; });
+        .filter(o => this.mockFilterOffer(o, genres, author?.toUpperCase(), bookName?.toUpperCase(), rating, favourite)));
+  }
+
+  getOfferById(id: number) {
+    return this.http.get<any>('assets/offers.json')
+      .toPromise()
+      .then(res => (<Offer[]> res.data)
+        .find(o => { return o.id === id; }));
   }
 
   /** Once BE is setup a BE filter will be used */
-  private mockFilterOffer(offer: Offer, genres?: BookGenre[] | null, author?: string | null, bookName?: string | null, rating?: number | null) {
+  private mockFilterOffer(offer: Offer, genres?: BookGenre[] | null, author?: string | null,
+      bookName?: string | null, rating?: number | null, favourite?: boolean | null) {
 
     let include: Boolean = true;
 
@@ -43,6 +50,9 @@ export class OfferService {
     }
     if (include && rating && offer.rating != null) {
       include = offer.rating >= rating;
+    }
+    if (include && favourite != null) {
+      include = offer.favourite === favourite;
     }
     return include;
   }

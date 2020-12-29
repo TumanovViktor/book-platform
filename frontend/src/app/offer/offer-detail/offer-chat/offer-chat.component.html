@@ -1,0 +1,33 @@
+<div class="chat">
+  <div *ngIf="chat">
+    <div class="chat-history">
+      <ul>
+        <div *ngFor="let chatMsg of chat.msgs">
+          <div *ngIf="chatMsg.byUserId == currentUserId; else otherUserMsg">
+            <li class="clearfix">
+              <div class="message-data align-right">
+                <span class="message-data-time">{{chatMsg.createdDate}}</span> &nbsp; &nbsp;
+                <span class="message-data-name">Vy</span>
+              </div>
+              <div class="message other-message float-right">{{chatMsg.message}}</div>
+            </li>
+          </div>
+          <ng-template #otherUserMsg>
+            <li>
+              <div class="message-data">
+                <span class="message-data-name">{{ownerName ? ownerName : chat.byUserName}}</span>
+                <span class="message-data-time">{{chatMsg.createdDate}}</span>
+              </div>
+              <div class="message my-message">{{chatMsg.message}}</div>
+            </li>
+          </ng-template>
+        </div>
+      </ul>
+    </div>
+  </div>
+  <div class="chat-message clearfix">
+    <textarea [(ngModel)]="chatMessage" placeholder="Napište zprávu" rows="3" maxlength="255"></textarea>
+    <button (click)="sendMessage()">Odeslat</button>
+  </div>
+  <p class="warn-text">Book-platform Vás nikdy nebude kontaktovat formou chatu, proto buďte opatrní co sdělujete ostatním.</p>
+</div>

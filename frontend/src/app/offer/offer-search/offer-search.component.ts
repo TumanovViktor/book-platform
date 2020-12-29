@@ -1,21 +1,21 @@
 import {Component, OnInit} from '@angular/core';
-import {BookGenre, EBookGenre} from './book-genre';
-import {Offer} from "./offer";
-import {OfferService} from "./offerserivce";
+import {Router} from '@angular/router';
+import {BookGenre, EBookGenre} from '../book-genre';
+import {Offer} from "../offer";
+import {OfferService} from "../offerservice";
 
 @Component({
-  selector: 'app-book-search',
-  templateUrl: './book-search.component.html',
-  styleUrls: ['./book-search.component.css']
+  selector: 'app-offer-search',
+  templateUrl: './offer-search.component.html',
+  styleUrls: ['./offer-search.component.css']
 })
-export class BookSearchComponent implements OnInit {
+export class OfferSearchComponent implements OnInit {
 
   /** Content data */
   offers: Offer[] = [];
   totalRecords: number = 0;
 
   /** Filter */
-  readonly stg: string = "Vyhledávání (žádný filtr)";
   panelFilterHeader: string = "Vyhledávání (žádný filtr)";
   bookGenres: BookGenre[];
   bookGenreMap: Map<EBookGenre, BookGenre>;
@@ -23,8 +23,9 @@ export class BookSearchComponent implements OnInit {
   filterAuthor?: string | null;
   filterBookName?: string | null;
   filterRating?: number | null;
+  filterFavourite?: boolean | null;
 
-  constructor(private productService: OfferService) {
+  constructor(private offerService: OfferService, private router: Router) {
     this.bookGenres = Array.from(BookGenre.GenreMap.values());
     this.bookGenreMap = BookGenre.GenreMap;
 
@@ -32,14 +33,22 @@ export class BookSearchComponent implements OnInit {
     this.filterAuthor = JSON.parse(localStorage.getItem("filterAuthor")!);
     this.filterBookName = JSON.parse(localStorage.getItem("filterBookName")!);
     this.filterRating = JSON.parse(localStorage.getItem("filterRating")!);
+    this.filterFavourite = JSON.parse(localStorage.getItem("filterFavourite")!);
 
     this.modifyFilterPanelHeader();
   }
 
   ngOnInit() {
-    this.productService.getFilteredOffers(this.filterGenres, this.filterAuthor, this.filterBookName, this.filterRating)
-      .then(data => this.offers = data);
-    this.totalRecords = this.offers.length;
+    this.performFilters(false);
+  }
+
+  goToOfferDetail(offer: Offer) {
+    this.router.navigate([`/detail/${offer.id}`]);
+  }
+
+  markAsFavourite(offer: Offer) {
+    // TODO call BE to favourite offer
+    offer.favourite = !offer.favourite;
   }
 
   performFilters(clear: boolean) {
@@ -47,7 +56,8 @@ export class BookSearchComponent implements OnInit {
       this.clearFilters();
     }
     else {
-      this.productService.getFilteredOffers(this.filterGenres, this.filterAuthor, this.filterBookName, this.filterRating)
+      this.offerService.getFilteredOffers(this.filterGenres, this.filterAuthor, this.filterBookName,
+          this.filterRating, this.filterFavourite)
         .then(data => this.offers = data);
       this.totalRecords = this.offers.length;
     }
@@ -56,25 +66,37 @@ export class BookSearchComponent implements OnInit {
     this.setOrRemoveItemFromLocalStorage("filterAuthor", this.filterAuthor);
     this.setOrRemoveItemFromLocalStorage("filterBookName", this.filterBookName);
     this.setOrRemoveItemFromLocalStorage("filterRating", this.filterRating);
+    this.setOrRemoveItemFromLocalStorage("filterFavourite", this.filterFavourite);
 
     this.modifyFilterPanelHeader();
   }
 
   private clearFilters() {
-    this.productService.getOffers().then(data => this.offers = data);
+    this.offerService.getOffers().then(data => this.offers = data);
     this.totalRecords = this.offers.length;
 
     this.filterGenres = null;
     this.filterAuthor = null;
     this.filterBookName = null;
     this.filterRating = null;
+    this.filterFavourite = null;
   }
 
   private modifyFilterPanelHeader() {
     let panelFilterMsg;
     let activeFilterCount = this.countActiveFilters();
     if (activeFilterCount > 0) {
-      panelFilterMsg = `${activeFilterCount} ${activeFilterCount == 1 ? "filtr" : "filtry"} aktivní`;
+      let activeFilterNoun;
+      if (activeFilterCount == 1) {
+        activeFilterNoun = "aktivní filtr";
+      }
+      else if (activeFilterCount < 4) {
+        activeFilterNoun = "aktivní filtry";
+      }
+      else {
+        activeFilterNoun = "aktivních filtrů";
+      }
+      panelFilterMsg = `${activeFilterCount} ${activeFilterNoun}`;
     }
     else {
       panelFilterMsg = "žádný filtr";
@@ -84,7 +106,8 @@ export class BookSearchComponent implements OnInit {
 
   private isAnyFilterActive(): boolean {
     return (this.filterGenres != null && this.filterGenres.length > 0)
-      || this.filterAuthor != null || this.filterBookName != null || this.filterRating != null;
+      || this.filterAuthor != null || this.filterBookName != null || this.filterRating != null
+      || this.filterFavourite != null;
   }
 
   private countActiveFilters(): number {
@@ -99,6 +122,9 @@ export class BookSearchComponent implements OnInit {
       i++;
     }
     if (this.filterRating != null) {
+      i++;
+    }
+    if (this.filterFavourite != null) {
       i++;
     }
     return i;

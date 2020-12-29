@@ -20,7 +20,7 @@ export class BookGenre {
 
   public static readonly Biography = new BookGenre(EBookGenre.BIOGRAPHY, "Biografie", false);
   public static readonly Crime = new BookGenre(EBookGenre.CRIME, "Krimi");
-  public static readonly Fantasy = new BookGenre(EBookGenre.FANTASY, "Fantazie", true);
+  public static readonly Fantasy = new BookGenre(EBookGenre.FANTASY, "Fantasy", true);
   public static readonly Horror = new BookGenre(EBookGenre.HORROR, "Horor", true);
   public static readonly Poetry = new BookGenre(EBookGenre.POETRY, "Poezie");
   public static readonly SciFi = new BookGenre(EBookGenre.SCI_FI, "Sci-fi", true);

@@ -5,199 +5,220 @@
       "userId": 1,
       "userName": "Yulia Badrutdinova",
       "genre": "FANTASY",
-      "date": "15.11.2020",
+      "createdDate": "15.11.2020",
       "author": "Joanne Kathleen Rowling",
       "bookName": "Harry Potter a Kámen mudrců",
-      "rating": 5
+      "rating": 5,
+      "favourite": false
     },
     {
       "id": 2,
       "userId": 2,
       "userName": "David Hořák",
       "genre": "BIOGRAPHY",
-      "date": "16. 10. 2020",
+      "createdDate": "16. 10. 2020",
       "author": "Pohlreich Zdeněk",
       "bookName": "Super jednoduše",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": false
     },
     {
       "id": 3,
       "userId": 3,
       "userName": "Viktor Tumanov",
       "genre": "POETRY",
-      "date": "16. 10. 2020",
+      "createdDate": "16. 10. 2020",
       "author": "Bohdalová Jiřina;Janoušek Jiří",
       "bookName": "Můj život mezi slzami a smíchem",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": false
     },
     {
       "id": 4,
       "userId": 4,
       "userName": "Simona Ondráčková",
       "genre": "HORROR",
-      "date": "13. 10. 2020",
+      "createdDate": "13. 10. 2020",
       "author": "Riggs Ransom",
       "bookName": "Sirotčinec slečny Peregrinové - Ptačí sněm",
-      "rating" : 5
+      "rating" : 4,
+      "favourite": false
     },
     {
       "id": 5,
       "userId": 5,
       "userName": "Martina Chvílová",
       "genre": "SCI_FI",
-      "date": "15. 10. 2020",
+      "createdDate": "15. 10. 2020",
       "author": "George Orwell",
       "bookName": "1984",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": false
     },
     {
-      "id": 1,
+      "id": 6,
       "userId": 1,
       "userName": "Yulia Badrutdinova",
       "genre": "FANTASY",
-      "date": "15.11.2020",
+      "createdDate": "15.11.2020",
       "author": "Joanne Kathleen Rowling",
       "bookName": "Harry Potter a Kámen mudrců",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": false
     },
     {
-      "id": 2,
+      "id": 7,
       "userId": 2,
       "userName": "David Hořák",
       "genre": "BIOGRAPHY",
-      "date": "16. 10. 2020",
+      "createdDate": "16. 10. 2020",
       "author": "Pohlreich Zdeněk",
       "bookName": "Super jednoduše",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": true
     },
     {
-      "id": 3,
+      "id": 8,
       "userId": 3,
       "userName": "Viktor Tumanov",
       "genre": "POETRY",
-      "date": "16. 10. 2020",
+      "createdDate": "16. 10. 2020",
       "author": "Bohdalová Jiřina;Janoušek Jiří",
       "bookName": "Můj život mezi slzami a smíchem",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": true
     },
     {
-      "id": 4,
+      "id": 9,
       "userId": 4,
       "userName": "Simona Ondráčková",
       "genre": "HORROR",
-      "date": "13. 10. 2020",
+      "createdDate": "13. 10. 2020",
       "author": "Riggs Ransom",
       "bookName": "Sirotčinec slečny Peregrinové - Ptačí sněm",
-      "rating" : 5
+      "rating" : 4,
+      "favourite": false
     },
     {
-      "id": 5,
+      "id": 10,
       "userId": 5,
       "userName": "Martina Chvílová",
       "genre": "SCI_FI",
-      "date": "15. 10. 2020",
+      "createdDate": "15. 10. 2020",
       "author": "George Orwell",
       "bookName": "1984",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": false
     },
     {
-      "id": 1,
+      "id": 11,
       "userId": 1,
       "userName": "Yulia Badrutdinova",
       "genre": "FANTASY",
-      "date": "15.11.2020",
+      "createdDate": "15.11.2020",
       "author": "Joanne Kathleen Rowling",
       "bookName": "Harry Potter a Kámen mudrců",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": false
     },
     {
-      "id": 2,
+      "id": 12,
       "userId": 2,
       "userName": "David Hořák",
       "genre": "BIOGRAPHY",
-      "date": "16. 10. 2020",
+      "createdDate": "16. 10. 2020",
       "author": "Pohlreich Zdeněk",
       "bookName": "Super jednoduše",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": false
     },
     {
-      "id": 3,
+      "id": 13,
       "userId": 3,
       "userName": "Viktor Tumanov",
       "genre": "POETRY",
-      "date": "16. 10. 2020",
+      "createdDate": "16. 10. 2020",
       "author": "Bohdalová Jiřina;Janoušek Jiří",
       "bookName": "Můj život mezi slzami a smíchem",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": true
     },
     {
-      "id": 4,
+      "id": 14,
       "userId": 4,
       "userName": "Simona Ondráčková",
       "genre": "HORROR",
-      "date": "13. 10. 2020",
+      "createdDate": "13. 10. 2020",
       "author": "Riggs Ransom",
       "bookName": "Sirotčinec slečny Peregrinové - Ptačí sněm",
-      "rating" : 5
+      "rating" : 4,
+      "favourite": false
     },
     {
-      "id": 5,
+      "id": 15,
       "userId": 5,
       "userName": "Martina Chvílová",
       "genre": "SCI_FI",
-      "date": "15. 10. 2020",
+      "createdDate": "15. 10. 2020",
       "author": "George Orwell",
       "bookName": "1984",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": false
     },
     {
-      "id": 1,
+      "id": 16,
       "userId": 1,
       "userName": "Yulia Badrutdinova",
       "genre": "FANTASY",
-      "date": "15.11.2020",
+      "createdDate": "15.11.2020",
       "author": "Joanne Kathleen Rowling",
       "bookName": "Harry Potter a Kámen mudrců",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": false
     },
     {
-      "id": 2,
+      "id": 17,
       "userId": 2,
       "userName": "David Hořák",
       "genre": "BIOGRAPHY",
-      "date": "16. 10. 2020",
+      "createdDate": "16. 10. 2020",
       "author": "Pohlreich Zdeněk",
       "bookName": "Super jednoduše",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": false
     },
     {
-      "id": 3,
+      "id": 18,
       "userId": 3,
       "userName": "Viktor Tumanov",
       "genre": "POETRY",
-      "date": "16. 10. 2020",
+      "createdDate": "16. 10. 2020",
       "author": "Bohdalová Jiřina;Janoušek Jiří",
       "bookName": "Můj život mezi slzami a smíchem",
-      "rating" : 5
+      "rating" : 5,
+      "favourite": false
     },
     {
-      "id": 4,
+      "id": 19,
       "userId": 4,
       "userName": "Simona Ondráčková",
       "genre": "HORROR",
-      "date": "13. 10. 2020",
+      "createdDate": "13. 10. 2020",
       "author": "Riggs Ransom",
       "bookName": "Sirotčinec slečny Peregrinové - Ptačí sněm",
-      "rating" : 5
+      "rating" : 4,
+      "favourite": false
     },
     {
-      "id": 5,
+      "id": 20,
       "userId": 5,
       "userName": "Martina Chvílová",
       "genre": "SCI_FI",
-      "date": "15. 10. 2020",
+      "createdDate": "15. 10. 2020",
       "author": "George Orwell",
-      "bookName": "1984"
+      "bookName": "1984",
+      "rating" : 5,
+      "favourite": false
     }
   ]
 }
