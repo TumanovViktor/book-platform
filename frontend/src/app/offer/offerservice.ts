@@ -28,6 +28,21 @@ export class OfferService {
         .find(o => { return o.id === id; }));
   }
 
+  save(offer: Offer): Promise<Offer> {
+    if (!offer) {
+      return null;
+    }
+
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        offer.id = 1; // simulating save on backend
+        offer.createdDate = new Date().toISOString();
+
+        resolve(offer);
+      }, 1000);
+    });
+  }
+
   /** Once BE is setup a BE filter will be used */
   private mockFilterOffer(offer: Offer, genres?: BookGenre[] | null, author?: string | null,
       bookName?: string | null, rating?: number | null, favourite?: boolean | null) {

@@ -3,14 +3,14 @@
     <a routerLink="/"><img src="/assets/images/logo-old.png" height="40" width="40" class="p-mr-2" alt=""></a>
   </ng-template>
   <ng-template pTemplate="end">
-    <span *ngIf="!authenticatedUser" class="p-buttonset">
+    <div *ngIf="authenticatedUser; else userNotAuthenticated" class="p-buttonset">
+      <button [label]="authenticatedUser.username" pButton pRipple type="button" icon="pi pi-user"
+              routerLink="/my-profile"></button>
+      <button label="Odhlášení" pButton pRipple type="button" icon="pi pi-sign-out" (click)="logout()"></button>
+    </div>
+    <ng-template #userNotAuthenticated class="p-buttonset">
       <button label="Registrace" pButton pRipple type="button" icon="pi pi-user-plus" routerLink="/register"></button>
       <button label="Přihlášení" pButton pRipple type="button" icon="pi pi-sign-in" routerLink="/login"></button>
-    </span>
-    <span *ngIf="authenticatedUser" class="p-buttonset">
-        <button [label]="authenticatedUser.username" pButton pRipple type="button" icon="pi pi-user"
-                routerLink="/my-profile"></button>
-        <button label="Odhlášení" pButton pRipple type="button" icon="pi pi-sign-out" (click)="logout()"></button>
-      </span>
+    </ng-template>
   </ng-template>
 </p-menubar>

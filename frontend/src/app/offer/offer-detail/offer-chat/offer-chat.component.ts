@@ -27,7 +27,12 @@ export class OfferChatComponent implements OnInit {
     if (this.chatMessage != null && this.chatMessage !== "") {
       this.onSend.emit(this.chatMessage);
 
-      let chatMsg = {byUserId: this.currentUserId, message: this.chatMessage, createdDate: new Date().toISOString()} as OfferChatMsg;
+      let chatMsg = {
+        byUserId: this.currentUserId,
+        message: this.chatMessage,
+        createdDate: new Date().toISOString()
+      } as OfferChatMsg;
+
       if (!this.chat) {
         this.createChat();
       }
@@ -38,6 +43,9 @@ export class OfferChatComponent implements OnInit {
   }
 
   createChat() {
-    this.chat = {byUserId: this.currentUserId, msgs: [] as OfferChatMsg[]} as OfferChat;
+    this.chat = {
+      byUserId: this.currentUserId,
+      msgs: [] as OfferChatMsg[]
+    } as OfferChat;
   }
 }

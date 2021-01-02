@@ -7,6 +7,7 @@ import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {AboutUsComponent} from './about-us/about-us.component';
 import {SupportComponent} from './support/support.component';
+import {OfferCreateComponent} from './offer/offer-create/offer-create.component';
 import {OfferSearchComponent} from './offer/offer-search/offer-search.component';
 import {OfferDetailComponent} from './offer/offer-detail/offer-detail.component';
 import {OfferChatComponent} from './offer/offer-detail/offer-chat/offer-chat.component';
@@ -21,6 +22,7 @@ import {RatingModule} from 'primeng/rating';
 import {TableModule} from 'primeng/table';
 import {PanelModule} from 'primeng/panel';
 import {MultiSelectModule} from 'primeng/multiselect';
+import {DropdownModule} from 'primeng/dropdown';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
@@ -51,6 +53,7 @@ import {ToastModule} from "primeng/toast";
     FooterComponent,
     AboutUsComponent,
     SupportComponent,
+    OfferCreateComponent,
     OfferSearchComponent,
     OfferDetailComponent,
     OfferChatComponent,
@@ -63,7 +66,7 @@ import {ToastModule} from "primeng/toast";
   imports: [
     BrowserModule, BrowserAnimationsModule,
     AppRoutingModule,
-    BreadcrumbModule, MenubarModule, SharedModule, ButtonModule, RippleModule, PanelModule, TableModule, MultiSelectModule, InputTextModule,
+    BreadcrumbModule, MenubarModule, SharedModule, ButtonModule, RippleModule, PanelModule, TableModule, MultiSelectModule, DropdownModule, InputTextModule,
     InputTextareaModule, TriStateCheckboxModule, TabViewModule, RatingModule, FormsModule, HttpClientModule, ReactiveFormsModule, PasswordModule, InputTextModule,
     InputMaskModule, FieldsetModule, BrowserAnimationsModule, PanelModule, ComparePasswordModule, AlertModule, MessageModule,  MessagesModule,
     ToastModule, CardModule

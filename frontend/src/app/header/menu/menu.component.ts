@@ -45,6 +45,15 @@ export class MenuComponent implements OnInit {
         routerLink: '/'
       }
     ];
+
+    if (this.authenticatedUser) {
+      this.items.push(
+        {
+          label: 'Vytvořit inzerát',
+          icon: 'pi pi-fw pi-plus',
+          routerLink: '/create'
+        });
+    }
   }
 
   logout() {

@@ -1,0 +1,47 @@
+<h1>Nový inzerát knihy</h1>
+<br>
+<div class="p-fluid">
+  <div class="p-field">
+    <label for="bookGenre">Žánr knihy</label>
+    <p-dropdown id="bookGenre" [options]="bookGenres" optionLabel="nameCz"
+                [(ngModel)]="offer.genre" (ngModelChange)="updateLocalStorage()"
+                required="true" placeholder="Vyberte žánr"
+                name="bookGenre" #bookGenre="ngModel" required></p-dropdown>
+  </div>
+  <div *ngIf="bookGenre.invalid && (bookGenre.dirty || bookGenre.touched)" class="invalid-field">
+    <div *ngIf="bookGenre.errors.required">
+      Žánr je povinný
+    </div>
+  </div>
+
+  <div class="p-field">
+      <label for="bookName">Název knihy</label>
+      <input id="bookName" type="text" [(ngModel)]="offer.bookName"
+             (ngModelChange)="updateLocalStorage()"
+             name="bookName" #bookName="ngModel" pInputText required>
+  </div>
+  <div *ngIf="bookName.invalid && (bookName.dirty || bookName.touched)" class="invalid-field">
+    <div *ngIf="bookName.errors.required">
+      Název knihy je povinný
+    </div>
+  </div>
+
+  <div class="p-field">
+      <label for="author">Autor</label>
+      <input id="author" type="text" [(ngModel)]="offer.author"
+             (ngModelChange)="updateLocalStorage()"
+             name="author" #author="ngModel" pInputText required>
+  </div>
+  <div *ngIf="author.invalid && (author.dirty || author.touched)" class="invalid-field">
+    <div *ngIf="author.errors.required">
+      Autor knihy je povinný
+    </div>
+  </div>
+
+  <div class="p-field">
+    <label for="rating">Hodnocení</label>
+    <p-rating id="rating" [(ngModel)]="offer.rating" (ngModelChange)="updateLocalStorage()" [cancel]="true"></p-rating>
+  </div>
+
+  <p-button label="Vytvořit" icon="pi pi-save" (click)="save()"></p-button>
+</div>
