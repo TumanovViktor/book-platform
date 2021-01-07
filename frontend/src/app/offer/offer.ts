@@ -9,5 +9,6 @@ export interface Offer {
   author?: string;
   bookName: string;
   rating?: number;
+  review?: string;
   favourite: boolean; // value depends on current user
 }

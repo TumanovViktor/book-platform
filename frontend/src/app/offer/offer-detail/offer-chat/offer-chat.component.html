@@ -27,7 +27,7 @@
   </div>
   <div class="chat-message clearfix">
     <textarea [(ngModel)]="chatMessage" placeholder="Napište zprávu" rows="3" maxlength="255"></textarea>
-    <button (click)="sendMessage()">Odeslat</button>
+    <button (click)="sendMessage()" [disabled]="!chatMessage || chatMessage === ''">Odeslat</button>
   </div>
   <p class="warn-text">Book-platform Vás nikdy nebude kontaktovat formou chatu, proto buďte opatrní co sdělujete ostatním.</p>
 </div>

@@ -33,16 +33,6 @@ export class MenuComponent implements OnInit {
         label: 'Podpora',
         icon: 'pi pi-fw pi-envelope',
         routerLink: '/support'
-      },
-      {
-        label: 'Žánry',
-        icon: 'pi pi-fw pi-align-justify',
-        routerLink: '/'
-      },
-      {
-        label: 'Autoři',
-        icon: 'pi pi-fw pi-users',
-        routerLink: '/'
       }
     ];
 

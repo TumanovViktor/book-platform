@@ -21,6 +21,8 @@ export class OfferDetailComponent implements OnInit {
   chatDataReady: boolean = false;
   chats: OfferChat[] = [];
 
+  showReview: boolean = false;
+
   bookGenreMap: Map<EBookGenre, BookGenre>;
 
   constructor(private offerService: OfferService, private offerChatService: OfferChatService,

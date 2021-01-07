@@ -1,0 +1,50 @@
+.offer-table {
+  width: 100%;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.favourite-icon {
+  background-color: inherit;
+}
+.favourite-icon:focus {
+  box-shadow: none;
+}
+
+.col-book-name {
+  width: 25%;
+}
+.col-author {
+  width: 25%;
+}
+.col-genre {
+  width: 20%;
+}
+.col-rating {
+  width: 20%;
+}
+.col-action {
+  width: 10%;
+}
+
+@media screen and (max-width: 48em) {
+  .offer-table {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .col-book-name {
+    width: 250px;
+  }
+  .col-author {
+    width: 250px;
+  }
+  .col-genre {
+    width: 150px;
+  }
+  .col-rating {
+    width: 200px;
+  }
+  .col-action {
+    width: 80px;
+  }
+}
