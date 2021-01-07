@@ -1,36 +1,15 @@
 .chat {
-  width: 490px;
+  max-width: 490px;
   float:left;
-  background: #F2F5F8;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   color: #434651;
 
-  .chat-header {
-    padding: 20px;
-    border-bottom: 2px solid white;
-
-    .chat-about {
-      float: left;
-      padding-left: 10px;
-      margin-top: 6px;
-    }
-
-    .chat-with {
-      font-weight: bold;
-      font-size: 16px;
-    }
-
-    .chat-num-messages {
-      color: gray;
-    }
-  }
-
   .chat-history {
-    padding: 20px 20px 10px;
-    border-bottom: 2px solid white;
+    padding-right: 10px;
     overflow-y: scroll;
-    height: 500px;
+    max-height: 400px;
+    min-height: 300px;
 
     .message-data {
       margin-bottom: 15px;
@@ -90,10 +69,12 @@
     width: 100%;
     border: none;
     padding: 10px 20px;
-    font: 14px/22px "Lato", Arial, sans-serif;
+    margin-right: 10px;
     margin-bottom: 10px;
+    font: 14px/22px "Lato", Arial, sans-serif;
     border-radius: 5px;
     resize: none;
+    background: #F2F5F8;
   }
 
   button {
@@ -104,10 +85,19 @@
     border: none;
     cursor: pointer;
     font-weight: bold;
-    background: #F2F5F8;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background: none;
 
     &:hover {
       color: darken(blue, 7%);
+      background: #F2F5F8;
+    }
+
+    &:disabled {
+      color: grey;
+      background: none;
+      cursor: not-allowed;
     }
   }
 }

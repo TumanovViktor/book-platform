@@ -7,7 +7,7 @@ import {OfferService} from "../offerservice";
 @Component({
   selector: 'app-offer-search',
   templateUrl: './offer-search.component.html',
-  styleUrls: ['./offer-search.component.css']
+  styleUrls: ['./offer-search.component.scss']
 })
 export class OfferSearchComponent implements OnInit {
 

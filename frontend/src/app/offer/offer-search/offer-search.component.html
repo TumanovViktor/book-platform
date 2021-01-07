@@ -1,4 +1,4 @@
-<div>
+<div class="offer-table">
   <p-panel [(ngModel)]="panelFilterHeader" [header]="panelFilterHeader" [toggleable]="true" toggler="header">
     <div class="p-grid p-fluid" style="max-width: 700px;">
       <div class="p-col-6 p-md-6">
@@ -20,7 +20,7 @@
       </div>
       <div class="p-col-6 p-md-6">
         <label for="filter-author">Autor</label>
-        <input id="filter-author" type="text" pInputText [(ngModel)]="filterAuthor"> 
+        <input id="filter-author" type="text" pInputText [(ngModel)]="filterAuthor">
       </div>
       <span class="p-col-12 p-buttonset">
         <button pButton type="button" label="Zrušit filtry" icon="pi pi-times" class="p-button-raised p-button-danger p-button-text"
@@ -31,34 +31,43 @@
     </div>
   </p-panel>
 
-  <p-table [value]="offers" sortMode="single" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]"
-    [totalRecords]="totalRecords">
-    <ng-template pTemplate="header">
-      <tr>
-        <th pSortableColumn="userName" style="width:10%">Uživatel <p-sortIcon field="userName"></p-sortIcon></th>
-        <th pSortableColumn="genre" style="width:10%">Žánr <p-sortIcon field="genre"></p-sortIcon></th>
-        <th pSortableColumn="author" style="width:15%">Autor <p-sortIcon field="author"></p-sortIcon></th>
-        <th pSortableColumn="bookName">Název <p-sortIcon field="bookName"></p-sortIcon></th>
-        <th pSortableColumn="rating" style="width:10%">Hodnocení <p-sortIcon field="rating"></p-sortIcon></th>
-        <th style="width:10%">Akce</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-offer>
-      <tr>
-        <td>{{offer.userName}}</td>
-        <td>{{bookGenreMap.get(offer.genre)!!.nameCz}}</td>
-        <td>{{offer.author}}</td>
-        <td>{{offer.bookName}}</td>
-        <td><p-rating [ngModel]="offer.rating" [readonly]="true" [cancel]="false"></p-rating></td>
-        <td>
-          <span style="display: flex; align-items: center;">
-            <button pButton type="button" icon="pi pi-external-link" class="p-button-rounded p-button-info p-button-text"
-              (click)="goToOfferDetail(offer)"></button>
-            <button pButton type="button" icon="pi pi-heart" class="p-button-rounded p-button-text favourite-icon"
-              [style.color]="offer.favourite ? 'red' : 'grey'" (click)="markAsFavourite(offer)"></button>
-          </span>
-        <td>
-      </tr>
-    </ng-template>
-  </p-table>
+  <div style="margin-bottom: 50px; overflow: auto;">
+    <p-table [value]="offers" sortMode="single" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
+             [totalRecords]="totalRecords">
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+            <col class="col-book-name">
+            <col class="col-author">
+            <col class="col-genre">
+            <col class="col-rating">
+            <col class="col-action">
+        </colgroup>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="bookName">Název <p-sortIcon field="bookName"></p-sortIcon></th>
+          <th pSortableColumn="author">Autor <p-sortIcon field="author"></p-sortIcon></th>
+          <th pSortableColumn="genre">Žánr <p-sortIcon field="genre"></p-sortIcon></th>
+          <th pSortableColumn="rating">Hodnocení <p-sortIcon field="rating"></p-sortIcon></th>
+          <th>Akce</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-offer>
+        <tr>
+          <td>{{offer.bookName}}</td>
+          <td>{{offer.author}}</td>
+          <td>{{bookGenreMap.get(offer.genre)!!.nameCz}}</td>
+          <td><p-rating [ngModel]="offer.rating" [readonly]="true" [cancel]="false"></p-rating></td>
+          <td>
+            <span style="display: flex; align-items: center;">
+              <button pButton type="button" icon="pi pi-external-link" class="p-button-rounded p-button-info p-button-text"
+                      (click)="goToOfferDetail(offer)"></button>
+              <button pButton type="button" icon="pi pi-heart" class="p-button-rounded p-button-text favourite-icon"
+                      [style.color]="offer.favourite ? 'red' : 'grey'" (click)="markAsFavourite(offer)"></button>
+            </span>
+          <td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </div>

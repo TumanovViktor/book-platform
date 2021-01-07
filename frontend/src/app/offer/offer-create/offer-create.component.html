@@ -43,5 +43,10 @@
     <p-rating id="rating" [(ngModel)]="offer.rating" (ngModelChange)="updateLocalStorage()" [cancel]="true"></p-rating>
   </div>
 
+  <div class="p-field">
+    <label for="review">Recenze</label>
+    <textarea id="review" [(ngModel)]="offer.review" (ngModelChange)="updateLocalStorage()" pInputTextarea></textarea>
+  </div>
+
   <p-button label="Vytvořit" icon="pi pi-save" (click)="save()"></p-button>
 </div>
