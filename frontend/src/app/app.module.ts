@@ -45,6 +45,7 @@ import {AlertModule} from "./alert";
 import {MessageModule} from "primeng/message";
 import {MessagesModule} from "primeng/messages";
 import {ToastModule} from "primeng/toast";
+import { APP_BASE_HREF } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -75,8 +76,7 @@ import {ToastModule} from "primeng/toast";
     OfferService, OfferChatService, MessageService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    // provider used to create fake backend
-    fakeBackendProvider
+    fakeBackendProvider // provider used to create fake backend
   ],
   bootstrap: [AppComponent]
 })
