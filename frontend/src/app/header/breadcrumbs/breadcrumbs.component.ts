@@ -3,7 +3,6 @@ import {MenuItem} from 'primeng/api';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {filter} from 'rxjs/operators';
 
-
 @Component({
   selector: 'app-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
@@ -11,6 +10,7 @@ import {filter} from 'rxjs/operators';
 })
 export class BreadcrumbsComponent implements OnInit {
   static readonly ROUTE_DATA_BREADCRUMB = 'breadcrumb';
+  private static readonly BASE_HREF_WITH_HASHBANG = '/2021zs/ete89e/08/projekt/#';
   readonly home = {icon: 'pi pi-home', url: 'home'};
   menuItems: MenuItem[];
 
@@ -24,7 +24,8 @@ export class BreadcrumbsComponent implements OnInit {
       .subscribe(() => this.menuItems = this.createBreadcrumbs(this.activatedRoute.root));
   }
 
-  private createBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: MenuItem[] = []): MenuItem[] {
+  private createBreadcrumbs(route: ActivatedRoute, url: string = BreadcrumbsComponent.BASE_HREF_WITH_HASHBANG,
+      breadcrumbs: MenuItem[] = []): MenuItem[] {
     const children: ActivatedRoute[] = route.children;
 
     if (children.length === 0) {

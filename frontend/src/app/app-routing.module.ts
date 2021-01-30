@@ -13,7 +13,6 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      {path: '', redirectTo: '/home', pathMatch: 'full'},
       {path: 'home', component: OfferSearchComponent, data: {breadcrumb: 'Inzeráty'}},
       {path: 'detail/:offerId', component: OfferDetailComponent, data: {breadcrumb: 'Detail'}},
       {path: 'create', component: OfferCreateComponent, data: {breadcrumb: 'Nový inzerát'}},
@@ -21,13 +20,15 @@ const routes: Routes = [
       {path: 'about-us', component: AboutUsComponent, data: {breadcrumb: 'O nás'}},
       {path: 'register', component: RegisterComponent, data: {breadcrumb: 'Registrace'}},
       {path: 'login', component: LoginComponent, data: {breadcrumb: 'Přihlášení'}},
-      {path: 'my-profile', component: MyProfileComponent, data: {breadcrumb: 'Můj profil'}}
+      {path: 'my-profile', component: MyProfileComponent, data: {breadcrumb: 'Můj profil'}},
+      {path: '', redirectTo: '/home', pathMatch: 'full'},
+      {path: '**', redirectTo: '/home', pathMatch: 'full'} // 404
     ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
