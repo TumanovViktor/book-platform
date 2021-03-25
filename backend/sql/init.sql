@@ -1,7 +1,7 @@
 CREATE TABLE `user` (
     id INT NOT NULL AUTO_INCREMENT,
-    username VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(50) NOT NULL UNIQUE,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -23,3 +23,14 @@ CREATE TABLE offer (
 
     PRIMARY KEY (id)
 );
+
+ALTER TABLE offer ADD CONSTRAINT FK_offer_owner FOREIGN KEY (user_id) REFERENCES user(id);
+
+CREATE TABLE favourite_offer (
+    user_id INT NOT NULL,
+    offer_id INT NOT NULL,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE favourite_offer ADD CONSTRAINT FK_fav_offer_user FOREIGN KEY (user_id) REFERENCES user(id);
+ALTER TABLE favourite_offer ADD CONSTRAINT FK_fav_offer_offer FOREIGN KEY (offer_id) REFERENCES offer(id);
