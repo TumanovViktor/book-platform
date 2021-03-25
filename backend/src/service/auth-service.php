@@ -14,7 +14,7 @@ class AuthService {
             $database = new Database();
             $dbConn = $database->connect();
 
-            $stmt = $dbConn->prepare("SELECT id, username, email, password, active FROM user WHERE email=?");
+            $stmt = $dbConn->prepare("SELECT id, username, email, password, active FROM user WHERE email = ?");
             $stmt->execute(array($req->getBody()->email));
 
             if ($user = $stmt->fetch()) {

@@ -8,6 +8,7 @@ require_once 'service/auth-service.php';
 require_once 'service/user-service.php';
 require_once 'service/admin-service.php';
 require_once 'service/offer-service.php';
+require_once 'service/offer-search-service.php';
 require_once 'service/offer-chat-service.php';
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
@@ -24,7 +25,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('PUT', '/admin/users/deactivate', 'AdminService/deactivateUser');
 
     // offer
-    $r->addRoute('GET', '/offer', 'OfferService/readAllPageable');
+    $r->addRoute('GET', '/offer', 'OfferSearchService/readAllPageable');
     $r->addRoute('GET', '/offer/{id:\d+}', 'OfferService/readById');
     $r->addRoute('POST', '/offer', 'OfferService/create');
     $r->addRoute('PUT', '/offer/{id:\d+}', 'OfferService/update');
