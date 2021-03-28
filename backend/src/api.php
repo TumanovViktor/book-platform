@@ -61,7 +61,7 @@ switch ($routeInfo[0]) {
 
         $req = new Request();
         $req->setVarsAndParams($vars, $params);
-        if ($httpMethod == 'POST') {
+        if ($httpMethod == 'POST' || $httpMethod == 'PUT') {
             $req->setBody(json_decode(file_get_contents("php://input")));
         }
 
