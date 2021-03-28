@@ -38,6 +38,20 @@ class WebUtil {
     }
 }
 
+class Utils {
+    static function isSetAndNotEmpty($obj, $varName) {
+        $arr = (array) $obj;
+        return !empty($arr) && isset($arr[$varName]) && !empty($arr[$varName]);
+    }
+
+    static function getIfSetAndNotEmpty($arr, $varName) {
+        if (self::isSetAndNotEmpty($arr, $varName)) {
+            return $arr[$varName];
+        }
+        return null;
+    }
+}
+
 class Request {
     private $pathVars = [];
     private $queryParams = [];
