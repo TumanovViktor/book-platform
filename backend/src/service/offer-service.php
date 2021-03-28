@@ -47,9 +47,7 @@ class OfferService {
         $dbConn = $database->connect();
 
         $data = $this->getOfferData($body);
-        $data += ['user_id' => WebUtil::getUserAuth()->userId];
-
-        $sql = $this->getPreparedInsertSql('offer', $data);
+        $sql = SqlUtils::getPreparedInsertSql('offer', $data);
         $stmt = $dbConn->prepare($sql);
 
         if ($stmt->execute(array_values($data))) {
@@ -73,12 +71,9 @@ class OfferService {
         $dbConn = $database->connect();
         
         $data = $this->getOfferData($body);
-        $data += ['user_id' => WebUtil::getUserAuth()->userId];
-
-        $sql = $this->getPreparedUpdateSql('offer', $data);
+        $sql = SqlUtils::getPreparedUpdateSql('offer', $data, $offerId);
         $stmt = $dbConn->prepare($sql);
 
-        $data += ['id' => (int) $offerId];
         if ($stmt->execute($data)) {
             WebUtil::exitWithHttpCode(200);
         } else {
@@ -86,21 +81,8 @@ class OfferService {
         }
     }
 
-    private function getPreparedInsertSql($tableName, $data) {
-        $keys = array_keys($data);
-        $fields = implode(",", $keys);
-        $placeholders = str_repeat("?,", count($keys) - 1) . '?';
-        return "INSERT INTO $tableName ($fields) VALUES ($placeholders)";
-    }
-
-    private function getPreparedUpdateSql($tableName, $data) {
-        $keys = array_keys($data);
-        $keys = array_map(function($key) {
-            return "$key=:$key";
-        }, $keys);
-        $fields = implode(", ", $keys);
-        $placeholders = str_repeat("?,", count($keys) - 1) . '?';
-        return "UPDATE $tableName SET $fields WHERE id=:id";
+    function markAsFavourite(Request $req) {
+        // TODO finish
     }
 
     private function validOfferRequest($body) {
@@ -133,6 +115,7 @@ class OfferService {
             'genre' => $body->genre,
             'author' => $body->author,
             'book_name' => $body->book_name,
+            'user_id' => WebUtil::getUserAuth()->userId
         ];
         if (Utils::isSetAndNotEmpty($body, 'rating')) {
             $data['rating'] = $body->rating;
@@ -145,9 +128,5 @@ class OfferService {
         }
 
         return $data;
-    }
-
-    function markAsFavourite(Request $req) {
-        // TODO finish
     }
 }
