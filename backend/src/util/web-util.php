@@ -52,6 +52,25 @@ class Utils {
     }
 }
 
+class SqlUtils {
+    static function getPreparedInsertSql($tableName, $data) {
+        $keys = array_keys($data);
+        $fields = implode(",", $keys);
+        $placeholders = str_repeat("?,", count($keys) - 1) . '?';
+        return "INSERT INTO $tableName ($fields) VALUES ($placeholders)";
+    }
+
+    static function getPreparedUpdateSql($tableName, $data, $id) {
+        $keys = array_keys($data);
+        $keys = array_map(function($key) {
+            return "$key=:$key";
+        }, $keys);
+        $fields = implode(", ", $keys);
+        $placeholders = str_repeat("?,", count($keys) - 1) . '?';
+        return "UPDATE $tableName SET $fields WHERE id=$id";
+    }
+}
+
 class Request {
     private $pathVars = [];
     private $queryParams = [];
