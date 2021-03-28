@@ -11,24 +11,24 @@ class OfferSearchService {
 
         $qParams = $req->getQueryParams();
         if (!empty($qParams)
-              && $this->isSetAndNotEmpty($qParams, 'pNo')
-              && $this->isSetAndNotEmpty($qParams, 'pSize')) {
+              && Utils::isSetAndNotEmpty($qParams, 'pNo')
+              && Utils::isSetAndNotEmpty($qParams, 'pSize')) {
 
-            $pNo = $this->getIfSetAndNotEmpty($qParams, 'pNo');
+            $pNo = Utils::getIfSetAndNotEmpty($qParams, 'pNo');
             if ($pNo <= 0) {
                 WebUtil::exitWithHttpCode(400); // bad request
             }
-            $pSize = $this->getIfSetAndNotEmpty($qParams, 'pSize');
+            $pSize = Utils::getIfSetAndNotEmpty($qParams, 'pSize');
             if ($pSize <= 0 && $pSize > 100) {
                 WebUtil::exitWithHttpCode(400); // bad request
             }
-            $cSort = $this->getIfSetAndNotEmpty($qParams, 'cSort');
-            $cSortAsc = $this->getIfSetAndNotEmpty($qParams, 'cSortAsc');
-            $fGenre = $this->getIfSetAndNotEmpty($qParams, 'fGenre');
-            $fRating = $this->getIfSetAndNotEmpty($qParams, 'fRating');
-            $fFav = $this->getIfSetAndNotEmpty($qParams, 'fFav');
-            $fBookName = $this->getIfSetAndNotEmpty($qParams, 'fBookName');
-            $fAuthor = $this->getIfSetAndNotEmpty($qParams, 'fAuthor');
+            $cSort = Utils::getIfSetAndNotEmpty($qParams, 'cSort');
+            $cSortAsc = Utils::getIfSetAndNotEmpty($qParams, 'cSortAsc');
+            $fGenre = Utils::getIfSetAndNotEmpty($qParams, 'fGenre');
+            $fRating = Utils::getIfSetAndNotEmpty($qParams, 'fRating');
+            $fFav = Utils::getIfSetAndNotEmpty($qParams, 'fFav');
+            $fBookName = Utils::getIfSetAndNotEmpty($qParams, 'fBookName');
+            $fAuthor = Utils::getIfSetAndNotEmpty($qParams, 'fAuthor');
 
             $database = new Database();
             $dbConn = $database->connect();
@@ -127,16 +127,5 @@ class OfferSearchService {
             }
         }
         return $sort;
-    }
-
-    private function isSetAndNotEmpty($arr, $varName): bool {
-        return !empty($arr) && isset($arr[$varName]) && !empty($arr[$varName]);
-    }
-
-    private function getIfSetAndNotEmpty($arr, $varName) {
-        if ($this->isSetAndNotEmpty($arr, $varName)) {
-            return $arr[$varName];
-        }
-        return null;
     }
 }

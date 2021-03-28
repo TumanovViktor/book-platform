@@ -47,8 +47,11 @@ class OfferService {
         $dbConn = $database->connect();
 
         $data = $this->getOfferData($body);
+        $data += ['user_id' => WebUtil::getUserAuth()->userId];
+
         $sql = $this->getPreparedInsertSql('offer', $data);
         $stmt = $dbConn->prepare($sql);
+
         if ($stmt->execute(array_values($data))) {
             WebUtil::exitWithHttpCode(200);
         } else {
@@ -68,8 +71,10 @@ class OfferService {
 
         $database = new Database();
         $dbConn = $database->connect();
-
+        
         $data = $this->getOfferData($body);
+        $data += ['user_id' => WebUtil::getUserAuth()->userId];
+
         $sql = $this->getPreparedUpdateSql('offer', $data);
         $stmt = $dbConn->prepare($sql);
 
@@ -100,25 +105,23 @@ class OfferService {
 
     private function validOfferRequest($body) {
         return !empty($body) &&
-            !empty($body->user_id) &&
             !empty($body->genre) &&
             !empty($body->author) &&
             !empty($body->book_name);
     }
 
     private function getOfferValidator($body) {
-        $validator = v::attribute('user_id', v::positive()->number())
-            ->attribute('genre', v::stringType())
+        $validator = v::attribute('genre', v::stringType())
             ->attribute('author', v::stringType())
             ->attribute('book_name', v::stringType());
         
-        if ($this->isSetAndNotEmpty($body, 'rating')) {
+        if (Utils::isSetAndNotEmpty($body, 'rating')) {
             $validator->attribute('rating', v::positive()->number()); // TODO: add range?
         }
-        if ($this->isSetAndNotEmpty($body, 'review')) {
+        if (Utils::isSetAndNotEmpty($body, 'review')) {
             $validator->attribute('review', v::stringType());
         }
-        if ($this->isSetAndNotEmpty($body, 'create_date')) {
+        if (Utils::isSetAndNotEmpty($body, 'create_date')) {
             $validator->attribute('create_date', v::positive()->number()); // TODO: enough for timestamp?
         }
 
@@ -127,27 +130,21 @@ class OfferService {
 
     private function getOfferData($body) {
         $data = [
-            'user_id' => $body->user_id,
             'genre' => $body->genre,
             'author' => $body->author,
             'book_name' => $body->book_name,
         ];
-        if ($this->isSetAndNotEmpty($body, 'rating')) {
+        if (Utils::isSetAndNotEmpty($body, 'rating')) {
             $data['rating'] = $body->rating;
         }
-        if ($this->isSetAndNotEmpty($body, 'review')) {
+        if (Utils::isSetAndNotEmpty($body, 'review')) {
             $data['review'] = $body->review;
         }
-        if ($this->isSetAndNotEmpty($body, 'create_date')) {
+        if (Utils::isSetAndNotEmpty($body, 'create_date')) {
             $data['create_date'] = $body->create_date;
         }
 
         return $data;
-    }
-
-    private function isSetAndNotEmpty($obj, $varName) {
-        $arr = (array) $obj;
-        return !empty($arr) && isset($arr[$varName]) && !empty($arr[$varName]);
     }
 
     function markAsFavourite(Request $req) {
