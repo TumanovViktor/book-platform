@@ -20,7 +20,7 @@ class OfferService {
             $stmt->bindParam(':id', $id);
             $stmt->execute();
 
-            if ($result = $stmt->fetch()) { // convert to function?
+            if ($result = $stmt->fetch()) {
                 $offer = JsonMapper::createOfferDto($result);
 
                 echo json_encode($offer);
@@ -69,7 +69,7 @@ class OfferService {
 
         $database = new Database();
         $dbConn = $database->connect();
-        
+
         $data = $this->getOfferData($body);
         $sql = SqlUtils::getPreparedUpdateSql('offer', $data, $offerId);
         $stmt = $dbConn->prepare($sql);
@@ -96,7 +96,7 @@ class OfferService {
         $validator = v::attribute('genre', v::stringType())
             ->attribute('author', v::stringType())
             ->attribute('book_name', v::stringType());
-        
+
         if (Utils::isSetAndNotEmpty($body, 'rating')) {
             $validator->attribute('rating', v::positive()->number()); // TODO: add range?
         }
