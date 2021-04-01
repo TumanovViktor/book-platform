@@ -9,8 +9,6 @@ use Respect\Validation\Validator as v;
 class OfferService {
 
     function readById(Request $req) {
-        WebUtil::requireAuthentication();
-
         $id = $req->getPathVars()['id'];
         if ($id) {
             $database = new Database();
@@ -23,15 +21,11 @@ class OfferService {
             if ($result = $stmt->fetch()) { // convert to function?
                 $offer = JsonMapper::createOfferDto($result);
 
-                echo json_encode($offer);
-
-                WebUtil::fillResponseHeaders();
-            } else {
-                WebUtil::exitWithHttpCode(404);
+                WebUtil::respondSuccessWith($offer);
             }
-        } else {
-            WebUtil::exitWithHttpCode(400);
+            WebUtil::exitWithHttpCode(404);
         }
+        WebUtil::exitWithHttpCode(400);
     }
 
     function create(Request $req) {
@@ -52,9 +46,8 @@ class OfferService {
 
         if ($stmt->execute(array_values($data))) {
             WebUtil::exitWithHttpCode(200);
-        } else {
-            WebUtil::exitWithHttpCode(500);
         }
+        WebUtil::exitWithHttpCode(500);
     }
 
     function update(Request $req) {
@@ -76,13 +69,30 @@ class OfferService {
 
         if ($stmt->execute($data)) {
             WebUtil::exitWithHttpCode(200);
-        } else {
-            WebUtil::exitWithHttpCode(500);
         }
+        WebUtil::exitWithHttpCode(500);
     }
 
     function markAsFavourite(Request $req) {
-        // TODO finish
+        WebUtil::requireAuthentication();
+
+        $offerId = $req->getPathVars()['id'];
+        $reqFav = Utils::getIfSetAndNotEmpty($req->getQueryParams(), 'fav');
+        $fav = $reqFav == null || $reqFav === 'true';
+
+        $database = new Database();
+        $dbConn = $database->connect();
+
+        $userId = WebUtil::getUserAuth()->userId;
+        if ($fav) {
+            $stmt = $dbConn->prepare("INSERT INTO favourite_offer (user_id, offer_id) VALUES (:userId, :offerId)");
+        } else {
+            $stmt = $dbConn->prepare("DELETE FROM favourite_offer WHERE user_id =:userId AND offer_id =:offerId");
+        }
+
+        $stmt->bindValue(':userId', $userId);
+        $stmt->bindValue(':offerId', $offerId);
+        $stmt->execute(); // does not matter if this fails
     }
 
     private function validOfferRequest($body) {

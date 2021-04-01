@@ -29,7 +29,9 @@ ALTER TABLE offer ADD CONSTRAINT FK_offer_owner FOREIGN KEY (user_id) REFERENCES
 CREATE TABLE favourite_offer (
     user_id INT NOT NULL,
     offer_id INT NOT NULL,
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT UK_user_offer UNIQUE(user_id, offer_id)
 );
 
 ALTER TABLE favourite_offer ADD CONSTRAINT FK_fav_offer_user FOREIGN KEY (user_id) REFERENCES user(id);

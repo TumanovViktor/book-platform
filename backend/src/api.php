@@ -29,6 +29,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/offer/{id:\d+}', 'OfferService/readById');
     $r->addRoute('POST', '/offer', 'OfferService/create');
     $r->addRoute('PUT', '/offer/{id:\d+}', 'OfferService/update');
+    $r->addRoute('PUT', '/offer/{id:\d+}/favourite', 'OfferService/markAsFavourite');
 
     // offer chat
     $r->addRoute('GET', '/offer/chat/{id:\d+}', 'OfferChatService/readAllByOfferId');
