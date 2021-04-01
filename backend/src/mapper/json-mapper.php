@@ -27,4 +27,22 @@ class JsonMapper {
             "favourite" => (bool) $result['favourite'],
         );
     }
+
+    function createOfferChatOwnerOverviewDto($result): Array {
+        return array(
+            "bidderId" => (int) $result['bidder_id'],
+            "bidderFirstName" => $result['first_name'],
+            "bidderLastName" => $result['last_name'],
+        );
+    }
+
+    /** use with SELECT * FROM offer_chat ... */
+    function createOfferChatDto($result): Array {
+        return array(
+            "id" => (int) $result['id'],
+            "fromUserId" => (int) $result['from_user_id'],
+            "msg" => $result['message'],
+            "createdDate" => $result['created_date'],
+        );
+    }
 }

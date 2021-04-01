@@ -6,9 +6,10 @@ require_once 'mapper/json-mapper.php';
 
 class OfferSearchService {
 
-    function readAllPageable(Request $req) {
-        WebUtil::requireAuthentication();
+    const ALLOWED_RATING = array("1", "2", "3", "4", "5");
 
+    /** Accessible when not logged in */
+    function readAllPageable(Request $req) {
         $qParams = $req->getQueryParams();
         if (!empty($qParams)
               && Utils::isSetAndNotEmpty($qParams, 'pNo')
@@ -35,8 +36,11 @@ class OfferSearchService {
 
             // constructing SQL query
             $whereCond = $this->handleFilters($dbConn, $fGenre, $fRating, $fFav, $fBookName, $fAuthor); // collect binds from this q
-            $userId = WebUtil::getUserAuth()->userId;
-            $join = " LEFT JOIN favourite_offer fo ON fo.offer_id = o.id AND (fo.user_id IS NULL OR fo.user_id = $userId)"; // alias is important
+            $join = ""; // no join if not authenticated
+            if (WebUtil::isAuthenticated()) {
+                $userId = WebUtil::getUserAuth()->userId;
+                $join = " LEFT JOIN favourite_offer fo ON fo.offer_id = o.id AND (fo.user_id IS NULL OR fo.user_id = $userId)"; // alias is important
+            }
 
             $stmtCount = $dbConn->prepare("SELECT COUNT(*) as offerCount FROM offer o " . $join . $whereCond);
             $stmtCount->execute();
@@ -54,12 +58,10 @@ class OfferSearchService {
                 }
             }
 
-            echo json_encode(array(
+            WebUtil::respondSuccessWith(array(
                 "content" => $offers,
                 "count" => $offerCount
             ));
-
-            WebUtil::fillResponseHeaders();
         } else {
             WebUtil::exitWithHttpCode(400); // bad request
         }
@@ -74,14 +76,15 @@ class OfferSearchService {
                 $hasCond = true;
                 $whereCond .= "o.genre = " . $dbConn->quote($fGenre);
             }
-            if ($fRating && $fRating > 0 && $fRating <= 5) {
+            if ($fRating && in_array($fRating, ALLOWED_RATING)) {
                 if ($hasCond) {
                     $whereCond .= " AND ";
                 }
                 $hasCond = true;
-                $whereCond .= "o.rating >= $fRating"; // TODO escape
+                $ratingInt = (int) $fRating;
+                $whereCond .= "o.rating >= $ratingInt";
             }
-            if ($fFav) {
+            if (WebUtil::isAuthenticated() && $fFav) {
                 if ($hasCond) {
                     $whereCond .= " AND ";
                 }

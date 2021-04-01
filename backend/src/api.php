@@ -31,8 +31,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('PUT', '/offer/{id:\d+}', 'OfferService/update');
 
     // offer chat
-    $r->addRoute('GET', '/offer/chat/{id:\d+}', 'OfferChatService/readAllByOfferId');
-    $r->addRoute('POST', '/offer/chat/{id:\d+}', 'OfferChatService/createForOfferId');
+    $r->addRoute('GET', '/offer/chat/owner/{offerId:\d+}', 'OfferChatService/readAllOwnerChatsByOfferId');
+    $r->addRoute('GET', '/offer/chat/{offerId:\d+}', 'OfferChatService/readAllByOfferId');
+    $r->addRoute('POST', '/offer/chat/{offerId:\d+}', 'OfferChatService/createForOfferId');
 });
 
 $uri = $_SERVER['PATH_INFO'];

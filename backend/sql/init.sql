@@ -34,3 +34,18 @@ CREATE TABLE favourite_offer (
 
 ALTER TABLE favourite_offer ADD CONSTRAINT FK_fav_offer_user FOREIGN KEY (user_id) REFERENCES user(id);
 ALTER TABLE favourite_offer ADD CONSTRAINT FK_fav_offer_offer FOREIGN KEY (offer_id) REFERENCES offer(id);
+
+CREATE TABLE offer_chat (
+    id INT NOT NULL AUTO_INCREMENT,
+    offer_id INT NOT NULL,
+    bidder_id INT NOT NULL, -- bidder = interested person
+    from_user_id INT NOT NULL, -- bidder or owner
+    message VARCHAR(255) NOT NULL,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE offer_chat ADD CONSTRAINT FK_offer_chat_bidder FOREIGN KEY (bidder_id) REFERENCES user(id);
+ALTER TABLE offer_chat ADD CONSTRAINT FK_offer_chat_user FOREIGN KEY (from_user_id) REFERENCES user(id);
+ALTER TABLE offer_chat ADD CONSTRAINT FK_offer_chat_offer FOREIGN KEY (offer_id) REFERENCES offer(id);

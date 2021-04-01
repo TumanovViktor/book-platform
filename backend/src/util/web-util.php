@@ -15,8 +15,8 @@ class WebUtil {
         return null; // none or expired authorization
     }
 
-    function isAuthenticated() {
-        return self::getUserAuth();
+    function isAuthenticated(): bool {
+        return self::getUserAuth() != null;
     }
 
     function requireAuthentication() {
@@ -26,11 +26,16 @@ class WebUtil {
     }
 
     function exitWithHttpCode($httpCode, $data = null) {
-        http_response_code($httpCode); // usually 4xx
-        if ($data) {
+        http_response_code($httpCode);
+        if ($data || is_array($data)) {
+            self::fillResponseHeaders();
             echo json_encode($data);
         }
         exit();
+    }
+
+    function respondSuccessWith($data) {
+        self::exitWithHttpCode(200, $data); // exits code
     }
 
     function fillResponseHeaders() {
