@@ -21,8 +21,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 
     // admin
     $r->addRoute('GET', '/admin/users', 'AdminService/readAllUsers');
-    $r->addRoute('PUT', '/admin/users/activate', 'AdminService/activateUser');
-    $r->addRoute('PUT', '/admin/users/deactivate', 'AdminService/deactivateUser');
+    $r->addRoute('PUT', '/admin/users/{userId:\d+}/activate-state', 'AdminService/changeUserActiveState');
 
     // offer
     $r->addRoute('GET', '/offer', 'OfferSearchService/readAllPageable');

@@ -13,6 +13,7 @@ class JwtIssuer {
             'userId' => $user['id'],
             'username' => $user['username'],
             'email' => $user['email'],
+            'role' => $user['role'],
             'iat' => time(),
             'exp' => time() + 28800, // 8 hours
             'iss' => 'book-platform'
