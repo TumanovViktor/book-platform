@@ -16,23 +16,42 @@ class UserService {
 
         $database = new Database();
         $dbConn = $database->connect();
-        
+
         $data = $this->getRegisterData($body);
         if ($this->hasUserWithData($dbConn, $data)) {
             WebUtil::exitWithHttpCode(400);
         }
-        
+
         $sql = SqlUtils::getPreparedInsertSql('user', $data);
         $stmt = $dbConn->prepare($sql);
         if ($stmt->execute(array_values($data))) {
             WebUtil::exitWithHttpCode(200);
-        } else {
-            WebUtil::exitWithHttpCode(500);
         }
+        WebUtil::exitWithHttpCode(500);
     }
 
     function changePwd(Request $req) {
-        // TODO finish
+        WebUtil::requireAuthentication();
+
+        $body = $req->getBody();
+        $changePwdValidator = $this->getChangePwdValidator($body);
+        if (!$this->validChangePwdRequest($body) || !$changePwdValidator->validate($body)) {
+            WebUtil::exitWithHttpCode(400);
+        }
+        if ($body->password != $body->passwordConfirm) {
+            WebUtil::exitWithHttpCode(400, "Passwords do not match");
+        }
+
+        $database = new Database();
+        $dbConn = $database->connect();
+        $stmt = $dbConn->prepare("UPDATE user u SET u.password =:pwd WHERE u.id =:userId");
+        $stmt->bindValue(':pwd', password_hash($body->password, PASSWORD_DEFAULT));
+        $stmt->bindParam(':userId', WebUtil::getUserAuth()->userId);
+
+        if ($stmt->execute()) {
+            WebUtil::exitWithHttpCode(200);
+        }
+        WebUtil::exitWithHttpCode(500);
     }
 
     private function hasUserWithData($dbConn, $data) {
@@ -41,7 +60,7 @@ class UserService {
         return boolval($stmt->fetch());
     }
 
-    private function validRegisterRequest($body) {
+    private function validRegisterRequest($body): bool {
         return !empty($body) &&
             !empty($body->username) &&
             !empty($body->first_name) &&
@@ -50,12 +69,23 @@ class UserService {
             !empty($body->password);
     }
 
+    private function validChangePwdRequest($body): bool {
+        return !empty($body) &&
+            !empty($body->password) &&
+            !empty($body->passwordConfirm);
+    }
+
     private function getRegisterValidator($body) {
         return v::attribute('username', v::stringType())
             ->attribute('first_name', v::stringType())
             ->attribute('last_name', v::stringType())
             ->attribute('email', v::email())
             ->attribute('password', v::stringType());
+    }
+
+    private function getChangePwdValidator($body) {
+        return v::attribute('password', v::stringType())
+            ->attribute('passwordConfirm', v::stringType());
     }
 
     private function getRegisterData($body) {

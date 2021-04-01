@@ -45,4 +45,18 @@ class JsonMapper {
             "createdDate" => $result['created_date'],
         );
     }
+
+    /** use with SELECT * FROM user ... */
+    function createUserDto($result): Array {
+        return array(
+            "id" => (int) $result['id'],
+            "username" => $result['username'],
+            "firstName" => $result['first_name'],
+            "lastName" => $result['last_name'],
+            "email" => $result['email'],
+            "role" => $result['role'],
+            "createdDate" => $result['created_date'],
+            "active" => (bool) $result['active'],
+        );
+    }
 }

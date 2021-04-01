@@ -25,6 +25,13 @@ class WebUtil {
         }
     }
 
+    function requireAdmin() {
+        $auth = self::getUserAuth();
+        if ($auth == null || $auth->role != 'ADMIN') {
+            self::exitWithHttpCode(403); // forbidden
+        }
+    }
+
     function exitWithHttpCode($httpCode, $data = null) {
         http_response_code($httpCode);
         if ($data || is_array($data)) {

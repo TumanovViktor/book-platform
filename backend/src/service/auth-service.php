@@ -14,22 +14,20 @@ class AuthService {
             $database = new Database();
             $dbConn = $database->connect();
 
-            $stmt = $dbConn->prepare("SELECT id, username, email, password, active FROM user WHERE email = ?");
+            $stmt = $dbConn->prepare("SELECT id, username, email, role, password, active FROM user WHERE email = ?");
             $stmt->execute(array($req->getBody()->email));
 
             if ($user = $stmt->fetch()) {
-                if ($user['active'] && password_verify($req->getBody()->pwd, $user['password'])) {
-                    echo json_encode(JwtIssuer::issueToken($user)); // respond with token
-
-                    WebUtil::fillResponseHeaders();
-                } else {
+                if (!password_verify($req->getBody()->pwd, $user['password'])) {
                     WebUtil::exitWithHttpCode(403);
                 }
-            } else {
-                WebUtil::exitWithHttpCode(404);
+                if (!$user['active']) {
+                    WebUtil::exitWithHttpCode(403, "Account disabled");
+                }
+                WebUtil::respondSuccessWith(JwtIssuer::issueToken($user)); // respond with token
             }
-        } else {
-            WebUtil::exitWithHttpCode(400);
+            WebUtil::exitWithHttpCode(404);
         }
+        WebUtil::exitWithHttpCode(400);
     }
 }
