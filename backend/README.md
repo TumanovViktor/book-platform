@@ -6,6 +6,10 @@ Max 7.1 PHP - verze na kitlabu... už je to deprecated verze...
 localhost URI: /backend/src/api.php/...
 kitlab URI: /api.php/...
 
+## Documentation
+
+https://app.swaggerhub.com/apis-docs/CULS_project/book-platform_api/1.0
+
 ## Localhost
 Postup:
 
