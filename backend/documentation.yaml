@@ -1,0 +1,267 @@
+openapi: 3.0.0
+info:
+  title: 'Book Platform API'
+  version: '1.0'
+  description: 'Backend API for book platform'
+paths:
+  '/offer/{id}':
+    get:
+      summary: 'Retrieves offer by id'
+      operationId: 'OfferService::readById'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'offer id'
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  id: { type: integer }
+                  genre: { type: string }
+                  createdDate: { type: string }
+                  author: { type: string }
+                  bookName: { type: string }
+                  rating: { type: integer }
+                  review: { type: string }
+                type: object
+                example:
+                  id: 1
+                  genre: 'Horror'
+                  createdDate: '2021-04-04 13:55:08'
+                  author: 'King'
+                  bookName: 'It'
+                  rating: 0
+        '400': { description: 'Offer id not found' }
+        '404': { description: 'Offer with given id not found' }
+    put:
+      summary: 'Updates given fields for the offer with given id'
+      operationId: 'OfferService::update'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'offer id'
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - genre
+                - author
+                - book_name
+              properties:
+                genre: { type: string }
+                author: { type: string }
+                book_name: { type: string }
+                rating: { type: integer }
+                review: { type: string }
+                create_date: { type: integer }
+              type: object
+              example:
+                author: King
+                genre: Horror
+                book_name: It
+                rating: 5
+      responses:
+        '200': { description: 'Successful operation' }
+        '400': { description: 'Offer request is not valid' }
+        '403': { description: 'Authentication required' }
+        '500': { description: 'Failed to create offer' }
+  /offer:
+    get:
+      summary: 'Retrieves list of offers according to provided criterias'
+      operationId: 'OfferSearchService::readAllPageable'
+      parameters:
+        -
+          name: 'pNo'
+          in: query
+          required: true
+          description: 'Page number'
+          schema: { type: integer }
+        -
+          name: 'pSize'
+          required: true
+          description: 'Page size'
+          in: query
+          schema: { type: integer }
+        -
+          name: 'cSort'
+          in: query
+          description: 'Field to srot results by'
+          schema: { type: string }
+        -
+          name: 'cSortAsc'
+          in: query
+          description: 'Should sort ASC'
+          schema: { type: boolean }
+        -
+          name: 'fGenre'
+          in: query
+          description: 'Genre to filter by'
+          schema: { type: string }
+        -
+          name: 'fRating'
+          in: query
+          description: 'Rating to filter by'
+          schema: { type: integer }
+        -
+          name: 'fFav'
+          in: query
+          description: 'Should filter by favorites'
+          schema: { type: boolean }
+        -
+          name: 'fBookName'
+          in: query
+          description: 'Book name to filter by'
+          schema: { type: string }
+        -
+          name: 'fAuthor'
+          in: query
+          description: 'Author to filter by'
+          schema: { type: string }
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  content:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: { type: integer }
+                        genre: { type: string }
+                        createdDate: { type: string }
+                        author: { type: string }
+                        bookName: { type: string }
+                        rating: { type: integer }
+                        review: { type: string }
+                        favourite: { type: boolean }
+                  count: { type: integer }
+                type: object
+                example:
+                  content: []
+                  count: 0
+        '400': { description: 'Bad request' }
+    post:
+      summary: 'Creates offer with given params'
+      operationId: 'OfferService::create'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - genre
+                - author
+                - book_name
+              properties:
+                genre: { type: string }
+                author: { type: string }
+                book_name: { type: string }
+                rating: { type: integer }
+                review: { type: string }
+                create_date: { type: integer }
+              type: object
+              example:
+                author: King
+                genre: Horror
+                book_name: It
+                rating: 5
+      responses:
+        '200': { description: 'Successful operation' }
+        '400': { description: 'Offer request is not valid' }
+        '403': { description: 'Authentication required' }
+        '500': { description: 'Failed to create offer' }
+  '/offer/{id}/favourite':
+    put:
+      summary: 'Updates favorite field of offer with given id'
+      operationId: 'OfferService::markAsFavourite'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'offer id'
+          required: true
+          schema: { type: integer }
+        -
+          name: 'fav'
+          in: query
+          description: 'should mark offer as favorite'
+          required: false
+          schema: { type: string }
+      responses:
+        '200': { description: 'Operation executed' }
+        '403': { description: 'Authentication required' }
+  '/offer/chat/{offerId}':
+    get:
+      summary: 'Retrieves all chats for given offer id'
+      operationId: 'OfferChatService::readAllByOfferId'
+      parameters:
+        -
+          name: offerId
+          in: path
+          description: 'Offer id'
+          required: true
+          schema: { type: integer }
+        -
+          name: bidderId
+          in: query
+          description: 'Bidder id'
+          schema: { type: integer }
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: { type: integer }
+                    fromUserId: { type: integer }
+                    msg: { type: string }
+                    createdDate: { type: string }
+        '400': { description: 'Bad request' }
+        '403': { description: 'Authentication required' }
+        '404': { description: 'Offer chats not found' }
+    post:      
+      summary: 'Creates a chat for given offer id'
+      operationId: 'OfferChatService::createForOfferId'
+      parameters:
+        -
+          name: offerId
+          in: path
+          description: 'Offer id'
+          required: true
+          schema: { type: integer }
+        -
+          name: bidderId
+          in: query
+          description: 'Bidder id'
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: 'Some message text'
+      responses:
+        '200': { description: 'Successful operation' }
+        '400': { description: 'Bad request' }
+        '403': { description: 'Authentication required' }
+        '404': { description: 'Offer not found' }
+        '500': { description: 'Failed to create chat' }
