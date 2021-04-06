@@ -74,7 +74,16 @@ class OfferSearchService {
             $hasCond = false;
             if ($fGenre) {
                 $hasCond = true;
-                $whereCond .= "o.genre = " . $dbConn->quote($fGenre);
+                $genreArr = explode(',', str_replace(' ', '', $fGenre));
+                $whereCond .= "o.genre IN (";
+                $lastIndex = count($genreArr) - 1;
+                for ($i = 0; $i < count($genreArr); $i++) {
+                    $whereCond .= $dbConn->quote($genreArr[$i]);
+                    if ($i !== $lastIndex) {
+                        $whereCond .= ",";
+                    }
+                }
+                $whereCond .= ")";
             }
             if ($fRating && in_array($fRating, ALLOWED_RATING)) {
                 if ($hasCond) {
