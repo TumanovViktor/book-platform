@@ -99,12 +99,10 @@ class OfferService {
                 $stmt2->bindParam(':id', $offerId);
                 $stmt2->execute();
 
-                $offerChats = array();
-                while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-                    array_push($offerChats, JsonMapper::createOfferChatOwnerOverviewDto($row));
+                if ($stmt2->execute($data)) {
+                    WebUtil::exitWithHttpCode(200);
                 }
-
-                WebUtil::exitWithHttpCode(200);
+                WebUtil::exitWithHttpCode(500);
             }
             WebUtil::exitWithHttpCode(404);
         }
