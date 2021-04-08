@@ -75,14 +75,11 @@ class OfferSearchService {
     }
 
     private function handleFilters($dbConn, $fGenre, $fRating, $fFav, $fBookName, $fAuthor): String {
-        $whereCond = "";
+        $whereCond = " WHERE o.ended_date IS NULL";
         if ($fGenre || $fRating || $fFav || $fBookName || $fAuthor) {
-            $whereCond = " WHERE ";
-            $hasCond = false;
             if ($fGenre) {
-                $hasCond = true;
                 $genreArr = explode(',', str_replace(' ', '', $fGenre));
-                $whereCond .= "o.genre IN (";
+                $whereCond .= " AND o.genre IN (";
                 $lastIndex = count($genreArr) - 1;
                 for ($i = 0; $i < count($genreArr); $i++) {
                     $whereCond .= $dbConn->quote($genreArr[$i]);
@@ -93,36 +90,21 @@ class OfferSearchService {
                 $whereCond .= ")";
             }
             if ($fRating && in_array($fRating, ALLOWED_RATING)) {
-                if ($hasCond) {
-                    $whereCond .= " AND ";
-                }
-                $hasCond = true;
                 $ratingInt = (int) $fRating;
-                $whereCond .= "o.rating >= $ratingInt";
+                $whereCond .= " AND o.rating >= $ratingInt";
             }
             if (WebUtil::isAuthenticated() && $fFav) {
-                if ($hasCond) {
-                    $whereCond .= " AND ";
-                }
-                $hasCond = true;
                 if ($fFav === "true") {
-                    $whereCond .= "fo.user_id IS NOT NULL"; // access alias
+                    $whereCond .= " AND fo.user_id IS NOT NULL"; // access alias
                 } else {
-                    $whereCond .= "fo.user_id IS NULL"; // access alias
+                    $whereCond .= " AND fo.user_id IS NULL"; // access alias
                 }
             }
             if ($fBookName) {
-                if ($hasCond) {
-                    $whereCond .= " AND ";
-                }
-                $hasCond = true;
-                $whereCond .= "o.book_name = " . $dbConn->quote($fBookName);
+                $whereCond .= " AND o.book_name = " . $dbConn->quote($fBookName);
             }
             if ($fAuthor) {
-                if ($hasCond) {
-                    $whereCond .= " AND ";
-                }
-                $whereCond .= "o.author = " . $dbConn->quote($fAuthor);
+                $whereCond .= " AND o.author = " . $dbConn->quote($fAuthor);
             }
         }
         return $whereCond;
