@@ -95,11 +95,10 @@ class OfferService {
                 if ($result['ended_date']) {
                     WebUtil::exitWithHttpCode(422, "offer already ended");
                 }
+
                 $stmt2 = $dbConn->prepare("UPDATE offer SET ended_date = NOW() WHERE offer_id =:id");
                 $stmt2->bindParam(':id', $offerId);
-                $stmt2->execute();
-
-                if ($stmt2->execute($data)) {
+                if ($stmt2->execute()) {
                     WebUtil::exitWithHttpCode(200);
                 }
                 WebUtil::exitWithHttpCode(500);
