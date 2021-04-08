@@ -1,6 +1,8 @@
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {OfferChat} from '../../offer-chat';
 import {OfferChatMsg} from '../../offer-chat-msg';
+import {ActivatedRoute} from '@angular/router';
+import {AuthenticationService} from '../../../service/authentication.service';
 
 @Component({
   selector: 'offer-chat',
@@ -9,23 +11,24 @@ import {OfferChatMsg} from '../../offer-chat-msg';
 })
 export class OfferChatComponent implements OnInit {
 
-  currentUserId = 1; // TODO change to take from JWT
+  currentUserId;
 
   @Input() chat?: OfferChat | null = null;
   @Input() ownerName?: string | null = null; // only present for 'not-my' offers
-  @Output() onSend = new EventEmitter<string>();
+  @Output() onSend = new EventEmitter<any>();
 
   chatMessage: string = "";
 
-  constructor() {
+  constructor(private authService: AuthenticationService) {
   }
 
   ngOnInit() {
+    this.currentUserId = this.authService.currentUserValue.id;
   }
 
   sendMessage() {
     if (this.chatMessage != null && this.chatMessage !== "") {
-      this.onSend.emit(this.chatMessage);
+      this.onSend.emit( {msg: this.chatMessage, byUserId: this.chat.byUserId});
 
       let chatMsg = {
         byUserId: this.currentUserId,

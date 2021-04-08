@@ -45,6 +45,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "baseHref": "/2021zs/ete89e/08/projekt/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,

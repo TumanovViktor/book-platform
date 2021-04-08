@@ -1,10 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Offer} from "../offer";
-import {OfferService} from "../offerservice";
+import {Offer} from '../offer';
+import {OfferService} from '../offerservice';
 import {OfferChat} from '../offer-chat';
-import {OfferChatService} from "../offerchatservice";
+import {OfferChatService} from '../offerchatservice';
 import {BookGenre, EBookGenre} from '../book-genre';
+import {AuthenticationService} from '../../service/authentication.service';
+import {prettyPrint} from '../../helper/Utils';
+import {User} from '../../model/user';
 
 @Component({
   selector: 'app-offer-detail',
@@ -13,7 +16,7 @@ import {BookGenre, EBookGenre} from '../book-genre';
 })
 export class OfferDetailComponent implements OnInit {
 
-  currentUserId = 1; // TODO change to take from JWT
+  currentUser: User;
 
   offerId?: number;
   offer?: Offer;
@@ -26,38 +29,59 @@ export class OfferDetailComponent implements OnInit {
   bookGenreMap: Map<EBookGenre, BookGenre>;
 
   constructor(private offerService: OfferService, private offerChatService: OfferChatService,
-    private actRoute: ActivatedRoute) {
+              private actRoute: ActivatedRoute, private authService: AuthenticationService) {
     this.bookGenreMap = BookGenre.GenreMap;
   }
 
   ngOnInit() {
+    this.currentUser = this.authService.currentUserValue;
     this.actRoute.paramMap.subscribe(params => {
       this.offerId = Number(params.get('offerId'));
     });
 
     this.offerService.getOfferById(this.offerId!!)
       .then(data => {
-        this.offer = data
+        this.offer = data;
 
         if (this.isOwnOffer()) {
-          return this.offerChatService.getOfferChatsByOfferId(this.offerId!!);
+
+          this.offerChatService.getAllOwnerChatsByOfferId(this.offerId)
+            .then(bidders => {
+              bidders.forEach(bidder => {
+                this.offerChatService.getAllByOfferId(this.offerId, bidder.bidderId)
+                  .then(chatMsgs => {
+                    let chat = {
+                      byUserId: bidder.bidderId,
+                      byUserName: `${bidder.bidderFirstName} ${bidder.bidderLastName}`,
+                      offerId: this.offerId,
+                      msgs: chatMsgs
+                    };
+                    this.chats.push(chat);
+                  });
+                this.chatDataReady = true;
+              });
+              this.chatDataReady = true;
+            });
+        } else {
+          this.offerChatService.getAllByOfferId(this.offerId!!)
+            .then(chatMessages => {
+              this.chats.push({
+                byUserId: this.currentUser.id,
+                byUserName: this.currentUser.firstName,
+                offerId: this.offerId,
+                msgs: chatMessages
+              });
+              this.chatDataReady = true;
+            });
         }
-        else {
-          return this.offerChatService.getOfferChatsByOfferIdAndUserId(this.offerId!!, this.currentUserId);
-        }
-      })
-      .then(data => {
-        this.chatDataReady = true;
-        this.chats = data;
       });
   }
 
   isOwnOffer(): boolean {
-    // TODO JWT userId
-    return this.offer!!.userId === this.currentUserId;
+    return this.offer.userId === this.currentUser.id;
   }
 
-  sendChatMessage(msg: string) {
-    // TODO send message to BE
+  sendChatMessage(event) {
+    this.offerChatService.sendMessageToChat(event.msg, this.offerId, event.byUserId).subscribe();
   }
 }

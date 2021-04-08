@@ -24,7 +24,6 @@ class OfferChatService {
                 if ($userId != $result['user_id']) {
                     WebUtil::exitWithHttpCode(403); // not offer owner
                 }
-
                 $stmt2 = $dbConn->prepare("SELECT DISTINCT oc.bidder_id, u.first_name, u.last_name FROM offer_chat oc
                     JOIN user u ON oc.bidder_id = u.id
                     WHERE oc.offer_id =:id");
@@ -89,7 +88,7 @@ class OfferChatService {
         WebUtil::requireAuthentication();
 
         $offerId = $req->getPathVars()['offerId'];
-        $msg = $req->getBody();
+        $msg = $req->getBody()->message;
         if ($offerId && $msg && !empty($msg)) {
             $database = new Database();
             $dbConn = $database->connect();

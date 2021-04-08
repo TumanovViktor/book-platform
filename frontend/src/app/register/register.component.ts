@@ -4,6 +4,7 @@ import {first} from "rxjs/operators";
 import {UserService} from "../service/user.service";
 import {Router} from "@angular/router";
 import {AlertService} from "../alert";
+import {UserRole} from '../model/user';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,9 @@ export class RegisterComponent {
     username: '',
     email: '',
     password: '',
-    passwordConfirm: ''
+    passwordConfirm: '',
+    firstName: '',
+    lastName: ''
   };
 
   constructor(
@@ -30,8 +33,13 @@ export class RegisterComponent {
       username: this.registrationModel.username,
       email: this.registrationModel.email,
       password: this.registrationModel.password,
+      firstName: this.registrationModel.firstName,
+      lastName: this.registrationModel.lastName,
+      image: '',
       id: -1,
-      token: ''
+      token: '',
+      active: true,
+      role: UserRole.USER
     }
 
     this.userService.register(user)

@@ -1,13 +1,13 @@
 <div class="box">
   <div *ngIf="offer" class="offer-detail">
-    <p-card [(ngModel)]="offer" [header]="offer.bookName" [style]="{'margin-bottom': '1em'}">
+    <p-card [header]="offer.bookName" [style]="{'margin-bottom': '1em'}">
       <p>Autor: {{offer.author}}</p>
-      <p>Žánr: {{bookGenreMap.get(offer.genre)!!.nameCz}}</p>
+      <p>Žánr: {{bookGenreMap.get(offer.genre)?.nameCz}}</p>
       <hr>
       <p>Nabízející: {{offer.userName}}</p>
       <p>Datum vytvoření: {{offer.createdDate}}</p>
     </p-card>
-    <p-card *ngIf="offer.rating || offer.review" [(ngModel)]="offer" header="Recenze" [style]="{'margin-bottom': '1em'}">
+    <p-card *ngIf="offer.rating || offer.review" header="Recenze" [style]="{'margin-bottom': '1em'}">
       <span>Hodnocení: <p-rating [ngModel]="offer.rating" [readonly]="true" [cancel]="false"></p-rating></span>
       <div *ngIf="offer.review; else noReview">
         <p>Recenze:</p>
@@ -28,7 +28,7 @@
   <p-card header="Chat" class="chat">
     <div *ngIf="chatDataReady" style="overflow: auto;">
       <div *ngIf="isOwnOffer(); else notOwnerView">
-        <div *ngIf="chats; else noChats">
+        <div *ngIf="chats.length > 0; else noChats">
           <p-tabView>
             <p-tabPanel *ngFor="let chat of chats; let first = first" [header]="chat.byUserName" [selected]="first">
               <div *ngIf="first; else lazyTabView">

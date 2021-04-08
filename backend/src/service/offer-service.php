@@ -14,7 +14,7 @@ class OfferService {
             $database = new Database();
             $dbConn = $database->connect();
 
-            $stmt = $dbConn->prepare("SELECT * FROM offer WHERE id =:id");
+            $stmt = $dbConn->prepare("SELECT o.*, u.username FROM offer o join user u on o.user_id = u.id WHERE o.id =:id");
             $stmt->bindParam(':id', $id);
             $stmt->execute();
 
@@ -45,7 +45,8 @@ class OfferService {
         $stmt = $dbConn->prepare($sql);
 
         if ($stmt->execute(array_values($data))) {
-            WebUtil::exitWithHttpCode(200);
+            $last_id = $dbConn->lastInsertId();
+            WebUtil::exitWithHttpCode(200, (int) $last_id);
         }
         WebUtil::exitWithHttpCode(500);
     }
@@ -99,22 +100,19 @@ class OfferService {
         return !empty($body) &&
             !empty($body->genre) &&
             !empty($body->author) &&
-            !empty($body->book_name);
+            !empty($body->bookName);
     }
 
     private function getOfferValidator($body) {
-        $validator = v::attribute('genre', v::stringType())
-            ->attribute('author', v::stringType())
-            ->attribute('book_name', v::stringType());
+        $validator = v::attribute('author', v::stringType())
+            ->attribute('bookName', v::stringType())
+        ;
 
-        if (Utils::isSetAndNotEmpty($body, 'rating')) {
-            $validator->attribute('rating', v::positive()->number()); // TODO: add range?
-        }
         if (Utils::isSetAndNotEmpty($body, 'review')) {
             $validator->attribute('review', v::stringType());
         }
         if (Utils::isSetAndNotEmpty($body, 'create_date')) {
-            $validator->attribute('create_date', v::positive()->number()); // TODO: enough for timestamp?
+            $validator->attribute('create_date', v::positive()->number());
         }
 
         return $validator;
@@ -122,9 +120,9 @@ class OfferService {
 
     private function getOfferData($body) {
         $data = [
-            'genre' => $body->genre,
+            'genre' => $body->genre->val,
             'author' => $body->author,
-            'book_name' => $body->book_name,
+            'book_name' => $body->bookName,
             'user_id' => WebUtil::getUserAuth()->userId
         ];
         if (Utils::isSetAndNotEmpty($body, 'rating')) {

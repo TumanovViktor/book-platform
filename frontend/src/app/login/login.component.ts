@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AuthenticationService} from "../service/authentication.service";
 import {first} from "rxjs/operators";
 import {AlertService} from "../alert";
+import {prettyPrint} from '../helper/Utils';
 
 @Component({
   selector: 'app-login',

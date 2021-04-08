@@ -39,13 +39,15 @@ import {PasswordModule} from "primeng/password";
 import {InputMaskModule} from "primeng/inputmask";
 import {FieldsetModule} from "primeng/fieldset";
 import {ComparePasswordModule} from "../directive/compare-directive/compare-password.module";
-import {ErrorInterceptor, fakeBackendProvider, JwtInterceptor} from './helper';
+import {ErrorInterceptor, JwtInterceptor} from './helper';
 import {MyProfileComponent} from './my-profile/my-profile.component';
 import {AlertModule} from "./alert";
 import {MessageModule} from "primeng/message";
 import {MessagesModule} from "primeng/messages";
 import {ToastModule} from "primeng/toast";
-import { APP_BASE_HREF } from '@angular/common';
+import {ApiInterceptor} from './helper/ApiInterceptor';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import {CheckboxModule} from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,8 @@ import { APP_BASE_HREF } from '@angular/common';
     MenuComponent,
     RegisterComponent,
     LoginComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    AdminPanelComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
@@ -70,13 +73,13 @@ import { APP_BASE_HREF } from '@angular/common';
     BreadcrumbModule, MenubarModule, SharedModule, ButtonModule, RippleModule, PanelModule, TableModule, MultiSelectModule, DropdownModule, InputTextModule,
     InputTextareaModule, TriStateCheckboxModule, TabViewModule, RatingModule, FormsModule, HttpClientModule, ReactiveFormsModule, PasswordModule, InputTextModule,
     InputMaskModule, FieldsetModule, BrowserAnimationsModule, PanelModule, ComparePasswordModule, AlertModule, MessageModule,  MessagesModule,
-    ToastModule, CardModule
+    ToastModule, CardModule, CheckboxModule
   ],
   providers: [
     OfferService, OfferChatService, MessageService,
+    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    fakeBackendProvider // provider used to create fake backend
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

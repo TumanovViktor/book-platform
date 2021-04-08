@@ -8,6 +8,7 @@ import {OfferCreateComponent} from "./offer/offer-create/offer-create.component"
 import {RegisterComponent} from "./register/register.component";
 import {LoginComponent} from "./login/login.component";
 import {MyProfileComponent} from "./my-profile/my-profile.component";
+import {AdminPanelComponent} from './admin-panel/admin-panel.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
       {path: 'register', component: RegisterComponent, data: {breadcrumb: 'Registrace'}},
       {path: 'login', component: LoginComponent, data: {breadcrumb: 'Přihlášení'}},
       {path: 'my-profile', component: MyProfileComponent, data: {breadcrumb: 'Můj profil'}},
+      {path: 'admin', component: AdminPanelComponent, data: {breadcrumb: 'Administrace'}},
       {path: '', redirectTo: '/home', pathMatch: 'full'},
       {path: '**', redirectTo: '/home', pathMatch: 'full'} // 404
     ]

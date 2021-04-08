@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {MenuItem} from "primeng/api";
 import {AuthenticationService} from "../../service/authentication.service";
-import {User} from "../../model/user";
+import {User, UserRole} from '../../model/user';
 import {Router} from "@angular/router";
 import {AlertService} from "../../alert";
+import {prettyPrint} from '../../helper/Utils';
 
 @Component({
   selector: 'app-menu',
@@ -19,7 +20,6 @@ export class MenuComponent implements OnInit {
     private router: Router,
     private alerService: AlertService
   ) {
-    this.authenticationService.currentUser.subscribe(x => this.authenticatedUser = x);
   }
 
   ngOnInit(): void {
@@ -35,19 +35,30 @@ export class MenuComponent implements OnInit {
         routerLink: '/support'
       }
     ];
-
-    if (this.authenticatedUser) {
-      this.items.push(
-        {
-          label: 'Vytvořit inzerát',
-          icon: 'pi pi-fw pi-plus',
-          routerLink: '/create'
-        });
-    }
+    this.authenticationService.currentUser.subscribe(x => {
+      this.authenticatedUser = x;
+      if (x) {
+        this.items = this.items.concat(
+          {
+            label: 'Vytvořit inzerát',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: '/create'
+          });
+      }
+      if (x && x.role === UserRole.ADMIN) {
+        this.items = this.items.concat(
+          {
+            label: 'Administrace',
+            icon: 'pi pi-fw pi-cog',
+            routerLink: '/admin'
+          });
+      }
+    });
   }
 
   logout() {
     this.authenticationService.logout();
+    this.items = this.items.filter(value => value.label !== 'Vytvořit inzerát' && value.label !== "Administrace");
     this.alerService.success('Úspěšné odhlášení')
     this.router.navigate(['/login']);
   }

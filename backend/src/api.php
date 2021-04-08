@@ -17,7 +17,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 
     // user
     $r->addRoute('POST', '/user/register', 'UserService/register');
-    $r->addRoute('POST', '/user/change-pwd', 'UserService/changePwd');
+    $r->addRoute('POST', '/user/update-user', 'UserService/updateUser');
 
     // admin
     $r->addRoute('GET', '/admin/users', 'AdminService/readAllUsers');
@@ -34,6 +34,18 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/offer/chat/owner/{offerId:\d+}', 'OfferChatService/readAllOwnerChatsByOfferId');
     $r->addRoute('GET', '/offer/chat/{offerId:\d+}', 'OfferChatService/readAllByOfferId');
     $r->addRoute('POST', '/offer/chat/{offerId:\d+}', 'OfferChatService/createForOfferId');
+
+    $r->addRoute('OPTIONS', '/user/register', 'UserService/optionsRequest');
+    $r->addRoute('OPTIONS', '/user/login', 'UserService/optionsRequest');
+    $r->addRoute('OPTIONS', '/user/update-user', 'UserService/optionsRequest');
+    $r->addRoute('OPTIONS', '/offer', 'UserService/optionsRequest');
+    $r->addRoute('OPTIONS', '/offer/{id:\d+}', 'UserService/optionsRequest');
+    $r->addRoute('OPTIONS', '/offer/chat', 'UserService/optionsRequest');
+    $r->addRoute('OPTIONS', '/offer/chat/{offerId:\d+}', 'UserService/optionsRequest');
+    $r->addRoute('OPTIONS', '/offer/chat/owner/{offerId:\d+}', 'UserService/optionsRequest');
+    $r->addRoute('OPTIONS', '/offer/{id:\d+}/favourite', 'UserService/optionsRequest');
+    $r->addRoute('OPTIONS', '/admin/users', 'UserService/optionsRequest');
+    $r->addRoute('OPTIONS', '/admin/users/{userId:\d+}/activate-state', 'UserService/optionsRequest');
 });
 
 $uri = $_SERVER['PATH_INFO'];
@@ -46,6 +58,10 @@ $uri = rawurldecode($uri);
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
 $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization');
 
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:

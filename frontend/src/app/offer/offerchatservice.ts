@@ -1,22 +1,31 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {OfferChat} from "./offer-chat";
+import {OfferChatMsg} from './offer-chat-msg';
 
 @Injectable()
 export class OfferChatService {
   constructor(private http: HttpClient) { }
 
-  getOfferChatsByOfferId(offerId: number): Promise<OfferChat[]> {
-    return this.http.get<any>('assets/offer-chat.json')
-      .toPromise()
-      .then(res => (<OfferChat[]> res.data)
-        .filter(ocs => { return ocs.offerId === offerId; }));
+  getAllByOfferId(offerId: number, bidderId: number = null): Promise<OfferChatMsg[]> {
+    let params;
+    if (bidderId){
+      params = new HttpParams().set("bidderId", String(bidderId));
+    }
+    return this.http.get<any>(`offer/chat/${offerId}`, {params: params})
+      .toPromise();
   }
 
-  getOfferChatsByOfferIdAndUserId(offerId: number, userId: number): Promise<OfferChat[]> {
-    return this.http.get<any>('assets/offer-chat.json')
-      .toPromise()
-      .then(res => (<OfferChat[]> res.data)
-        .filter(ocs => { return ocs.offerId === offerId && ocs.byUserId === userId; }));
+  getAllOwnerChatsByOfferId(offerId: number): Promise<any[]> {
+    return this.http.get<any>(`offer/chat/owner/${offerId}`)
+      .toPromise();
+  }
+
+  sendMessageToChat(message: any, offerId: number, bidderId: number = null) {
+    let params;
+    if (bidderId){
+      params = new HttpParams().set("bidderId", String(bidderId));
+    }
+    return this.http.post<any>(`offer/chat/${offerId}`, {message}, {params: params});
   }
 }

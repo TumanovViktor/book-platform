@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {BookGenre, EBookGenre} from '../book-genre';
 import {Offer} from "../offer";
@@ -12,7 +12,7 @@ import {AlertService} from "../../alert";
   templateUrl: './offer-create.component.html',
   styleUrls: ['./offer-create.component.scss']
 })
-export class OfferCreateComponent implements OnInit {
+export class OfferCreateComponent implements OnInit, OnDestroy {
 
   offer: Offer = {} as Offer;
 
@@ -20,6 +20,7 @@ export class OfferCreateComponent implements OnInit {
   bookGenreMap: Map<EBookGenre, BookGenre>;
 
   authenticatedUser: User;
+  subscription;
 
   constructor(
     private offerService: OfferService,
@@ -27,10 +28,10 @@ export class OfferCreateComponent implements OnInit {
     private alertService: AlertService,
     private router: Router
   ) {
-    this.authenticationService.currentUser.subscribe(user => {
+    this.subscription = this.authenticationService.currentUser.subscribe(user => {
       if (!user) {
         this.router.navigate([`/login`]);
-        this.alertService.error('Pro vytvoření inzerátu je nutné se přihlásit.');
+        // this.alertService.error('Pro vytvoření inzerátu je nutné se přihlásit.');
         return;
       }
       this.authenticatedUser = user;
@@ -46,16 +47,18 @@ export class OfferCreateComponent implements OnInit {
   }
 
   save() {
-    console.log(this.offer);
-
     this.offerService.save(this.offer)
-      .then(savedOffer => {
+      .then(savedOfferId => {
         localStorage.removeItem('wipOffer');
-        this.router.navigate([`/detail/${savedOffer.id}`]);
+        this.router.navigate([`/detail/${savedOfferId}`]);
       });
   }
 
   updateLocalStorage() {
     localStorage.setItem('wipOffer', JSON.stringify(this.offer))
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

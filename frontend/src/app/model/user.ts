@@ -3,5 +3,14 @@ export interface User {
   username: string
   password: string
   email: string
-  token: string
+  role: string,
+  firstName: string,
+  lastName: string,
+  image: string,
+  token: string,
+  active: boolean
+}
+export class UserRole {
+  static USER = "USER"
+  static ADMIN = "ADMIN"
 }

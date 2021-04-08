@@ -3,6 +3,10 @@ import {Router} from '@angular/router';
 import {BookGenre, EBookGenre} from '../book-genre';
 import {Offer} from "../offer";
 import {OfferService} from "../offerservice";
+import {prettyPrint} from '../../helper/Utils';
+import {AuthenticationService} from '../../service/authentication.service';
+import {UserService} from '../../service/user.service';
+import {AlertService} from '../../alert';
 
 @Component({
   selector: 'app-offer-search',
@@ -13,7 +17,9 @@ export class OfferSearchComponent implements OnInit {
 
   /** Content data */
   offers: Offer[] = [];
-  totalRecords: number = 0;
+  totalRecords;
+  pageIndex: number = 1;
+  pageSize: number = 5;
 
   /** Filter */
   panelFilterHeader: string = "Vyhledávání (žádný filtr)";
@@ -25,7 +31,8 @@ export class OfferSearchComponent implements OnInit {
   filterRating?: number | null;
   filterFavourite?: boolean | null;
 
-  constructor(private offerService: OfferService, private router: Router) {
+  constructor(private offerService: OfferService, private router: Router, private authService: AuthenticationService,
+              private alertService: AlertService) {
     this.bookGenres = Array.from(BookGenre.GenreMap.values());
     this.bookGenreMap = BookGenre.GenreMap;
 
@@ -47,20 +54,25 @@ export class OfferSearchComponent implements OnInit {
   }
 
   markAsFavourite(offer: Offer) {
-    // TODO call BE to favourite offer
+    if (!this.authService.currentUserValue) {
+      this.alertService.error('Pouze přihlášený uživatel může označit inzerát jako oblíbeny');
+      return;
+    }
     offer.favourite = !offer.favourite;
+    this.offerService.markAsFavourite(offer.id, offer.favourite);
   }
 
   performFilters(clear: boolean) {
     if (clear || !this.isAnyFilterActive()) {
       this.clearFilters();
     }
-    else {
-      this.offerService.getFilteredOffers(this.filterGenres, this.filterAuthor, this.filterBookName,
-          this.filterRating, this.filterFavourite)
-        .then(data => this.offers = data);
-      this.totalRecords = this.offers.length;
-    }
+
+    this.offerService.getFilteredOffers(this.pageIndex, this.pageSize, this.filterGenres, this.filterAuthor, this.filterBookName,
+      this.filterRating, this.filterFavourite)
+      .then(data => {
+        this.offers = data.content;
+        this.totalRecords = data.count;
+      });
 
     this.setOrRemoveItemFromLocalStorage("filterGenres", this.filterGenres);
     this.setOrRemoveItemFromLocalStorage("filterAuthor", this.filterAuthor);
@@ -72,9 +84,6 @@ export class OfferSearchComponent implements OnInit {
   }
 
   private clearFilters() {
-    this.offerService.getOffers().then(data => this.offers = data);
-    this.totalRecords = this.offers.length;
-
     this.filterGenres = null;
     this.filterAuthor = null;
     this.filterBookName = null;
@@ -137,5 +146,10 @@ export class OfferSearchComponent implements OnInit {
     else {
       localStorage.removeItem(itemName);
     }
+  }
+
+  paginate(event) {
+    this.pageIndex = event.first/event.rows + 1;
+    this.performFilters(false);
   }
 }

@@ -1,9 +1,9 @@
 <div class="offer-table">
-  <p-panel [(ngModel)]="panelFilterHeader" [header]="panelFilterHeader" [toggleable]="true" toggler="header">
+  <p-panel [header]="panelFilterHeader" [toggleable]="true" toggler="header">
     <div class="p-grid p-fluid" style="max-width: 700px;">
       <div class="p-col-6 p-md-6">
         <label for="filter-genre">Žánr</label>
-        <p-multiSelect inputId="multiselect" [options]="bookGenres" [(ngModel)]="filterGenres" optionLabel="nameCz"></p-multiSelect>
+        <p-multiSelect id="filter-genre" inputId="multiselect" [options]="bookGenres" [(ngModel)]="filterGenres" optionLabel="nameCz"></p-multiSelect>
       </div>
       <div class="p-col-4 p-md-4">
         <label for="filter-rating">Hodnocení</label>
@@ -32,7 +32,7 @@
   </p-panel>
 
   <div style="margin-bottom: 50px; overflow: auto;">
-    <p-table [value]="offers" sortMode="single" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
+    <p-table [value]="offers" sortMode="single" [paginator]="true" [rows]="pageSize" (onLazyLoad)="paginate($event)" [lazy]="true"
              [totalRecords]="totalRecords">
       <ng-template pTemplate="colgroup" let-columns>
         <colgroup>
@@ -56,7 +56,7 @@
         <tr>
           <td>{{offer.bookName}}</td>
           <td>{{offer.author}}</td>
-          <td>{{bookGenreMap.get(offer.genre)!!.nameCz}}</td>
+          <td>{{bookGenreMap.get(offer.genre)?.nameCz}}</td>
           <td><p-rating [ngModel]="offer.rating" [readonly]="true" [cancel]="false"></p-rating></td>
           <td>
             <span style="display: flex; align-items: center;">

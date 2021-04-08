@@ -8,7 +8,7 @@ CREATE TABLE `user` (
     role VARCHAR(20) NOT NULL DEFAULT 'USER',
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     active BOOLEAN NOT NULL,
-
+    image VARCHAR(65535),
     PRIMARY KEY (id)
 );
 

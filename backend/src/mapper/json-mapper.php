@@ -12,20 +12,25 @@ class JsonMapper {
             "bookName" => $result['book_name'],
             "rating" => (int) $result['rating'],
             "review" => $result['review'],
+            "userId" => (int)$result['user_id'],
+            "userName" => $result['username']
         );
     }
 
     function createOfferDtoOverview($result): Array {
-        return array(
+        $dto = array(
             "id" => (int) $result['id'],
             "genre" => $result['genre'],
             "createdDate" => $result['created_date'],
             "author" => $result['author'],
             "bookName" => $result['book_name'],
             "rating" => (int) $result['rating'],
-            "review" => $result['review'],
-            "favourite" => (bool) $result['favourite'],
+            "review" => $result['review']
         );
+        if (array_key_exists('favourite', $result)) {
+            $dto["favourite"] = (bool) $result['favourite'];
+        }
+         return $dto;
     }
 
     function createOfferChatOwnerOverviewDto($result): Array {
@@ -40,8 +45,8 @@ class JsonMapper {
     function createOfferChatDto($result): Array {
         return array(
             "id" => (int) $result['id'],
-            "fromUserId" => (int) $result['from_user_id'],
-            "msg" => $result['message'],
+            "byUserId" => (int) $result['from_user_id'],
+            "message" => $result['message'],
             "createdDate" => $result['created_date'],
         );
     }
@@ -57,6 +62,7 @@ class JsonMapper {
             "role" => $result['role'],
             "createdDate" => $result['created_date'],
             "active" => (bool) $result['active'],
+            "image" => $result['image']
         );
     }
 }

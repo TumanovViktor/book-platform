@@ -50,7 +50,14 @@ class OfferSearchService {
             if ($offerCount > 0) {
                 $sort = $this->handleSort($cSort, $cSortAsc);
                 $offset = ($pNo - 1) * $pSize;
-                $stmt = $dbConn->prepare("SELECT o.*, fo.user_id IS NOT NULL AS favourite FROM offer o " . $join . $whereCond . $sort . " LIMIT $offset, $pSize");
+                $query =  "SELECT o.* ";
+                if (WebUtil::isAuthenticated()) {
+                    $query = $query . " , fo.user_id IS NOT NULL AS favourite ";
+                }
+                $query = $query . "FROM offer o " . $join . $whereCond . $sort . " LIMIT $offset, $pSize";
+                $stmt = $dbConn->prepare($query);
+//                WebUtil::respondSuccessWith("$query");
+
                 $stmt->execute();
 
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

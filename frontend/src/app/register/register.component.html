@@ -6,6 +6,23 @@
              [(ngModel)]="registrationModel.username" name="userName">
     </div>
   </div>
+
+  <div class="p-field p-grid">
+    <div class="p-inputgroup p-col-fixed" style="max-width:400px">
+      <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+      <input type="text" class="p-inputtext-lg" pInputText required placeholder="Křestní jméno"
+             [(ngModel)]="registrationModel.firstName" name="firstName">
+    </div>
+  </div>
+
+  <div class="p-field p-grid">
+    <div class="p-inputgroup p-col-fixed" style="max-width:400px">
+      <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+      <input type="text" class="p-inputtext-lg" pInputText required placeholder="Příjmení"
+             [(ngModel)]="registrationModel.lastName" name="lastName">
+    </div>
+  </div>
+
   <div class="p-field p-grid">
     <div class="p-inputgroup p-col-fixed" style="max-width:400px">
       <span class="p-inputgroup-addon"><i class="pi pi-envelope"></i></span>
