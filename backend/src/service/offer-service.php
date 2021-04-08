@@ -74,6 +74,40 @@ class OfferService {
         WebUtil::exitWithHttpCode(500);
     }
 
+    /** only for offer owner */
+    function endOffer(Request $req) {
+        WebUtil::requireAuthentication();
+
+        $offerId = $req->getPathVars()['offerId'];
+        if ($offerId) {
+            $database = new Database();
+            $dbConn = $database->connect();
+
+            $stmt1 = $dbConn->prepare("SELECT * FROM offer WHERE id =:id");
+            $stmt1->bindParam(':id', $offerId);
+            $stmt1->execute();
+
+            if ($result = $stmt1->fetch()) {
+                $userId = WebUtil::getUserAuth()->userId;
+                if ($userId != $result['user_id']) {
+                    WebUtil::exitWithHttpCode(403); // not offer owner
+                }
+                if ($result['ended_date']) {
+                    WebUtil::exitWithHttpCode(422, "offer already ended");
+                }
+
+                $stmt2 = $dbConn->prepare("UPDATE offer SET ended_date = NOW() WHERE offer_id =:id");
+                $stmt2->bindParam(':id', $offerId);
+                if ($stmt2->execute()) {
+                    WebUtil::exitWithHttpCode(200);
+                }
+                WebUtil::exitWithHttpCode(500);
+            }
+            WebUtil::exitWithHttpCode(404);
+        }
+        WebUtil::exitWithHttpCode(400);
+    }
+
     function markAsFavourite(Request $req) {
         WebUtil::requireAuthentication();
 

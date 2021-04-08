@@ -21,6 +21,7 @@ CREATE TABLE offer (
     rating INT,
     review VARCHAR(1000),
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ended_date TIMESTAMP,
 
     PRIMARY KEY (id)
 );
