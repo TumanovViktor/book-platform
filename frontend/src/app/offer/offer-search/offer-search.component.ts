@@ -30,6 +30,8 @@ export class OfferSearchComponent implements OnInit {
   filterBookName?: string | null;
   filterRating?: number | null;
   filterFavourite?: boolean | null;
+  sort?: string | null;
+  sortAsc?: boolean | null;
 
   constructor(private offerService: OfferService, private router: Router, private authService: AuthenticationService,
               private alertService: AlertService) {
@@ -68,7 +70,7 @@ export class OfferSearchComponent implements OnInit {
     }
 
     this.offerService.getFilteredOffers(this.pageIndex, this.pageSize, this.filterGenres, this.filterAuthor, this.filterBookName,
-      this.filterRating, this.filterFavourite)
+      this.filterRating, this.filterFavourite, this.sort, this.sortAsc)
       .then(data => {
         this.offers = data.content;
         this.totalRecords = data.count;
@@ -150,6 +152,8 @@ export class OfferSearchComponent implements OnInit {
 
   paginate(event) {
     this.pageIndex = event.first/event.rows + 1;
+    this.sort = event.sortField;
+    this.sortAsc = event.sortOrder === 1;
     this.performFilters(false);
   }
 }

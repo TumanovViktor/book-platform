@@ -32,7 +32,7 @@
   </p-panel>
 
   <div style="margin-bottom: 50px; overflow: auto;">
-    <p-table [value]="offers" sortMode="single" [paginator]="true" [rows]="pageSize" (onLazyLoad)="paginate($event)" [lazy]="true"
+    <p-table [value]="offers" [paginator]="true" [rows]="pageSize" (onLazyLoad)="paginate($event)" [lazy]="true"
              [totalRecords]="totalRecords">
       <ng-template pTemplate="colgroup" let-columns>
         <colgroup>
@@ -45,7 +45,7 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th pSortableColumn="bookName">Název <p-sortIcon field="bookName"></p-sortIcon></th>
+          <th pSortableColumn="book_name">Název <p-sortIcon field="book_name"></p-sortIcon></th>
           <th pSortableColumn="author">Autor <p-sortIcon field="author"></p-sortIcon></th>
           <th pSortableColumn="genre">Žánr <p-sortIcon field="genre"></p-sortIcon></th>
           <th pSortableColumn="rating">Hodnocení <p-sortIcon field="rating"></p-sortIcon></th>

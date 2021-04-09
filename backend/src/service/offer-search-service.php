@@ -43,6 +43,7 @@ class OfferSearchService {
             }
 
             $stmtCount = $dbConn->prepare("SELECT COUNT(*) as offerCount FROM offer o " . $join . $whereCond);
+
             $stmtCount->execute();
 
             $offerCount = (int) $stmtCount->fetch()['offerCount'] ?? 0;

@@ -23,6 +23,9 @@
         <p>Uživatel nezveřejnil recenzi</p>
       </ng-template>
     </p-card>
+    <div *ngIf="isOwnOffer()">
+      <p-button label="Ukončit inzerát" icon="pi pi-check" class="save-button" styleClass="p-button-lg" (click)="endOffer()"></p-button>
+    </div>
   </div>
 
   <p-card header="Chat" class="chat">

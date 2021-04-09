@@ -44,6 +44,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('OPTIONS', '/offer/chat', 'UserService/optionsRequest');
     $r->addRoute('OPTIONS', '/offer/chat/{offerId:\d+}', 'UserService/optionsRequest');
     $r->addRoute('OPTIONS', '/offer/chat/owner/{offerId:\d+}', 'UserService/optionsRequest');
+    $r->addRoute('OPTIONS', '/offer/{id:\d+}/end', 'UserService/optionsRequest');
     $r->addRoute('OPTIONS', '/offer/{id:\d+}/favourite', 'UserService/optionsRequest');
     $r->addRoute('OPTIONS', '/admin/users', 'UserService/optionsRequest');
     $r->addRoute('OPTIONS', '/admin/users/{userId:\d+}/activate-state', 'UserService/optionsRequest');

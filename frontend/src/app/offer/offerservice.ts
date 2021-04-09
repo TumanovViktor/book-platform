@@ -16,21 +16,20 @@ export class OfferService {
   }
 
   getFilteredOffers(pageIndex?: number | null, pageSize?: number, genres?: BookGenre[] | null, author?: string | null, bookName?: string | null,
-      rating?: number | null, favourite?: boolean | null) {
+      rating?: number | null, favourite?: boolean | null, sort?: string | null, sortAsc?: boolean | null) {
     let params = new HttpParams().set("pNo", String(pageIndex))
-      params = params.set("pSize", String(pageSize))
-    // .set("cSort", )
-    // .set("cSortAsc", )
+      params = params.set("pSize", String(pageSize));
     params = !!genres ? params.set("fGenre", genres.map(genre => genre.val).join(",")) : params;
     params = !!rating ? params.set("fRating", String(rating)) : params;
     params = !!favourite ? params.set("fFav", String(favourite)) : params;
     params = !!bookName ? params.set("fBookName", bookName) : params;
     params = !!author ? params.set("fAuthor", author) : params;
+    params = !!sort ? params.set("cSort", sort) : params;
+    params = typeof sortAsc !== 'undefined' ? params.set("cSortAsc", String(sortAsc)) : params;
     return this.http.get<any>('offer', {params}).toPromise();
   }
 
   getOfferById(id: number) {
-    // let params = new HttpParams().set("id", String(id));
     return this.http.get<any>(`offer/${id}`)
       .toPromise();
   }
@@ -45,5 +44,9 @@ export class OfferService {
   markAsFavourite(offerId: number, fav: boolean) {
     let params = new HttpParams().set("fav", String(fav));
     return this.http.put<any>(`/offer/${offerId}/favourite`, {params}).subscribe();
+  }
+
+  endOffer(offerId: number) {
+    return this.http.put(`/offer/${offerId}/end`, {});
   }
 }

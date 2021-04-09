@@ -78,7 +78,7 @@ class OfferService {
     function endOffer(Request $req) {
         WebUtil::requireAuthentication();
 
-        $offerId = $req->getPathVars()['offerId'];
+        $offerId = $req->getPathVars()['id'];
         if ($offerId) {
             $database = new Database();
             $dbConn = $database->connect();
@@ -96,12 +96,11 @@ class OfferService {
                     WebUtil::exitWithHttpCode(422, "offer already ended");
                 }
 
-                $stmt2 = $dbConn->prepare("UPDATE offer SET ended_date = NOW() WHERE offer_id =:id");
+                $stmt2 = $dbConn->prepare("UPDATE offer SET ended_date = NOW() WHERE id =:id");
                 $stmt2->bindParam(':id', $offerId);
                 if ($stmt2->execute()) {
                     WebUtil::exitWithHttpCode(200);
                 }
-                WebUtil::exitWithHttpCode(500);
             }
             WebUtil::exitWithHttpCode(404);
         }

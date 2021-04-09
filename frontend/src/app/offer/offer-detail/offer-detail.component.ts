@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Offer} from '../offer';
 import {OfferService} from '../offerservice';
 import {OfferChat} from '../offer-chat';
@@ -8,6 +8,7 @@ import {BookGenre, EBookGenre} from '../book-genre';
 import {AuthenticationService} from '../../service/authentication.service';
 import {prettyPrint} from '../../helper/Utils';
 import {User} from '../../model/user';
+import {AlertService} from '../../alert';
 
 @Component({
   selector: 'app-offer-detail',
@@ -29,7 +30,8 @@ export class OfferDetailComponent implements OnInit {
   bookGenreMap: Map<EBookGenre, BookGenre>;
 
   constructor(private offerService: OfferService, private offerChatService: OfferChatService,
-              private actRoute: ActivatedRoute, private authService: AuthenticationService) {
+              private actRoute: ActivatedRoute, private authService: AuthenticationService,
+              private alertService: AlertService, private router: Router) {
     this.bookGenreMap = BookGenre.GenreMap;
   }
 
@@ -83,5 +85,12 @@ export class OfferDetailComponent implements OnInit {
 
   sendChatMessage(event) {
     this.offerChatService.sendMessageToChat(event.msg, this.offerId, event.byUserId).subscribe();
+  }
+
+  endOffer() {
+    this.offerService.endOffer(this.offerId).toPromise().then(() => {
+      this.alertService.success('Inzerát byl ukončen');
+      this.router.navigate(['/home']);
+    });
   }
 }
