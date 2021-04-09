@@ -29,6 +29,8 @@ paths:
                   bookName: { type: string }
                   rating: { type: integer }
                   review: { type: string }
+                  userId: { type: integer }
+                  userName: { type: string }
                 type: object
                 example:
                   id: 1
@@ -57,11 +59,11 @@ paths:
               required:
                 - genre
                 - author
-                - book_name
+                - bookName
               properties:
                 genre: { type: string }
                 author: { type: string }
-                book_name: { type: string }
+                bookName: { type: string }
                 rating: { type: integer }
                 review: { type: string }
                 create_date: { type: integer }
@@ -69,7 +71,7 @@ paths:
               example:
                 author: King
                 genre: Horror
-                book_name: It
+                bookName: It
                 rating: 5
       responses:
         '200': { description: 'Successful operation' }
@@ -165,11 +167,11 @@ paths:
               required:
                 - genre
                 - author
-                - book_name
+                - bookName
               properties:
                 genre: { type: string }
                 author: { type: string }
-                book_name: { type: string }
+                bookName: { type: string }
                 rating: { type: integer }
                 review: { type: string }
                 create_date: { type: integer }
@@ -177,13 +179,30 @@ paths:
               example:
                 author: King
                 genre: Horror
-                book_name: It
+                bookName: It
                 rating: 5
       responses:
         '200': { description: 'Successful operation' }
         '400': { description: 'Offer request is not valid' }
         '403': { description: 'Authentication required' }
         '500': { description: 'Failed to create offer' }
+  '/offer/{id}/end':
+    put:
+      summary: 'End offer with given id'
+      operationId: 'OfferService::endOffer'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'offer id'
+          required: true
+          schema: { type: integer }
+      responses:
+        '200': { description: 'Successful operation' }
+        '400': { description: 'Offer request is not valid' }
+        '403': { description: 'Invalid owner' }
+        '404': { description: 'Offer not found' }
+        '422': { description: 'Offer already ended' }
   '/offer/{id}/favourite':
     put:
       summary: 'Updates favorite field of offer with given id'
@@ -231,7 +250,7 @@ paths:
                   type: object
                   properties:
                     id: { type: integer }
-                    fromUserId: { type: integer }
+                    byUserId: { type: integer }
                     msg: { type: string }
                     createdDate: { type: string }
         '400': { description: 'Bad request' }
@@ -265,3 +284,193 @@ paths:
         '403': { description: 'Authentication required' }
         '404': { description: 'Offer not found' }
         '500': { description: 'Failed to create chat' }
+  '/offer/chat/owner/{offerId}':
+    get:
+      summary: 'Retrieves all owner chats by offer id'
+      operationId: 'OfferChatService::readAllOwnerChatsByOfferId'
+      parameters:
+        -
+          name: offerId
+          in: path
+          description: 'Offer id'
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    bidderId: { type: integer }
+                    bidderFirstName: { type: string }
+                    bidderLastName: { type: string }
+        '400': { description: 'Bad request' }
+        '403': { description: 'Authentication required' }
+        '404': { description: 'Chats not found' }
+  '/user/login':
+    post:
+      summary: 'Loges user in and retrieves an authentication token'
+      operationId: 'AuthService::login'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - username
+                - password
+              properties:
+                username: { type: string }
+                password: { type: string }
+              type: object
+              example:
+                username: test
+                password: 123
+      responses:
+        '200': 
+          description: 'Successful operation'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'auth token'
+        '400': { description: 'Bad request' }
+        '403': { description: 'Access error' }
+        '404': { description: 'User not found' }
+  '/user/register':
+    post:
+      summary: 'Register new user'
+      operationId: 'UserService::register'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - username
+                - first_name
+                - last_name
+                - email
+                - password
+              properties:
+                username: { type: string }
+                first_name: { type: string }
+                last_name: { type: string }
+                email: { type: string }
+                password: { type: string }
+              type: object
+              example:
+                username: 'username'
+                first_name: 'First'
+                last_name: 'Last'
+                email: 'first@gmail.com'
+                password: '123'
+      responses:
+        '200': { description: 'Successful operation' }
+        '400': { description: 'Bad request' }
+        '500': { description: 'Failed to register user' }
+  '/user/update-user':
+    post:
+      summary: 'Update user information'
+      operationId: 'UserService::updateUser'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - userId
+                - username
+                - first_name
+                - last_name
+                - email
+                - image
+              properties:
+                userId: { type: string }
+                password: { type: string }
+                username: { type: string }
+                first_name: { type: string }
+                last_name: { type: string }
+                email: { type: string }
+                image: { type: string }
+              type: object
+              example:
+                userId: 1
+                password: '123'
+                username: 'username'
+                first_name: 'First'
+                last_name: 'Last'
+                email: 'first@gmail.com'
+                image: 'https://thehappypuppysite.com/wp-content/uploads/2018/07/dogo-argentino-MG-long.jpg'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  id: { type: number }
+                  username: { type: string }
+                  firstName: { type: string }
+                  lastName: { type: string }
+                  email: { type: string }
+                  role: { type: string }
+                  createdDate: { type: string }
+                  active: { type: boolean }
+                  image: { type: string }
+                  token: { type: string }
+                type: object
+        '400': { description: 'Bad request' }
+        '403': { description: 'Authentication required' }
+        '500': { description: 'Operation failed' }
+  '/admin/users':
+    get:
+      summary: 'Retrieves list of users'
+      operationId: 'AdminService::readAllUsers'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: { type: number }
+                    username: { type: string }
+                    firstName: { type: string }
+                    lastName: { type: string }
+                    email: { type: string }
+                    role: { type: string }
+                    createdDate: { type: string }
+                    active: { type: boolean }
+                    image: { type: string }
+                    token: { type: string }
+        '403': { description: 'Admin authentication required' }
+  '/admin/users/{userId}/activate-state':
+    put:
+      summary: 'Changes activation state of the user with id'
+      operationId: 'AdminService::changeUserActiveState'
+      parameters:
+        -
+          name: userId
+          in: path
+          description: 'User id'
+          required: true
+          schema: { type: integer }
+        -
+          name: activate
+          in: query
+          description: 'Activation state of the user'
+          required: true
+          schema: { type: boolean }
+      responses:
+        '200': { description: 'Successful operation' }
+        '400': { description: 'Bad request' }
+        '403': { description: 'Admin authentication required' }
+        '500': { description: 'Failed to set activation state' }
